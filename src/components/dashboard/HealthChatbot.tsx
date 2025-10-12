@@ -148,7 +148,7 @@ const HealthChatbot: React.FC = () => {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl mb-2 flex items-center justify-center space-x-2">
             <MessageCircle className="h-6 w-6" />
-            <span>AI Wellness Assistant</span>
+            <span>LiLo - AI Wellness Assistant</span>
           </CardTitle>
           <CardDescription className="text-primary-foreground/80">
             Get personalized health insights and wellness guidance

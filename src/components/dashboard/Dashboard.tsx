@@ -23,12 +23,29 @@ type ActiveView = 'overview' | 'checkin' | 'calendar' | 'schedule' | 'chat';
 
 const Dashboard: React.FC = () => {
   const { user, signout } = useAuth();
-  const { metrics, hasCompletedToday, dailyEntries } = useHealth();
+  const { metrics, hasCompletedToday, hasCompletedAllToday, dailyEntries } = useHealth();
   const [activeView, setActiveView] = useState<ActiveView>('overview');
+  const [selectedHealthCategory, setSelectedHealthCategory] = useState<string | null>(null);
 
-  const completionRate = dailyEntries.length > 0 
-    ? Math.round((dailyEntries.filter(entry => entry.completed).length / dailyEntries.length) * 100)
-    : 0;
+  const completionRate = (() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayString = `${year}-${month}-${day}`;
+    
+    const todayEntry = dailyEntries.find(entry => entry.date === todayString);
+    if (!todayEntry) return 0;
+    
+    const allQuestions = metrics.flatMap(metric => metric.questions);
+    const answeredQuestions = allQuestions.filter(q => 
+      todayEntry.responses[q.id] !== undefined
+    ).length;
+    
+    return allQuestions.length > 0 
+      ? Math.round((answeredQuestions / allQuestions.length) * 100)
+      : 0;
+  })();
 
   const currentStreak = () => {
     let streak = 0;
@@ -49,10 +66,43 @@ const Dashboard: React.FC = () => {
     return streak;
   };
 
+  const handleHealthCardClick = (categoryName: string) => {
+    setSelectedHealthCategory(categoryName);
+    setActiveView('checkin');
+  };
+
+  const getCategoryProgress = (categoryName: string) => {
+    // Find the metric for this category
+    const metric = metrics.find(m => m.name.includes(categoryName.split(' ')[0]));
+    if (!metric) return 0;
+    
+    // Check today's entry for this category's questions
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayString = `${year}-${month}-${day}`;
+    
+    const todayEntry = dailyEntries.find(entry => entry.date === todayString);
+    if (!todayEntry) return 0;
+    
+    const answeredQuestions = metric.questions.filter(q => 
+      todayEntry.responses[q.id] !== undefined
+    ).length;
+    
+    return Math.round((answeredQuestions / metric.questions.length) * 100);
+  };
+
   const renderActiveView = () => {
     switch (activeView) {
       case 'checkin':
-        return <DailyCheckIn onComplete={() => setActiveView('overview')} />;
+        return <DailyCheckIn 
+          onComplete={() => {
+            setActiveView('overview');
+            setSelectedHealthCategory(null);
+          }}
+          focusCategory={selectedHealthCategory}
+        />;
       case 'calendar':
         return <HealthCalendar />;
       case 'schedule':
@@ -63,141 +113,302 @@ const Dashboard: React.FC = () => {
         return (
           <div className="space-y-6">
             {/* Welcome Header */}
-            <Card className="bg-gradient-primary text-primary-foreground shadow-medium animate-fade-in">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h1 className="text-2xl font-bold flex items-center gap-2">
+                  Welcome to <span className="text-purple-600">Pridally</span>
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  Your Wellness Journey • Friday, October 10 🎃
+                </p>
+              </div>
+              <div className="text-right">
+                <div className="text-sm font-medium text-purple-600">{completionRate}% Complete</div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>📊</span>
+                  <span>👤</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Purple Card */}
+            <Card className="bg-gradient-primary text-white shadow-lg animate-fade-in">
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <CardTitle className="text-xl mb-2 flex items-center gap-2">
+                  Supporting with love and intention 💝
+                </CardTitle>
+                <CardDescription className="text-white/90 text-sm">
+                  Explore resources to better support your loved ones and create inclusive spaces when healing flourishes
+                </CardDescription>
+                
+                <div className="grid grid-cols-4 gap-6 mt-6">
                   <div>
-                    <CardTitle className="text-2xl mb-2">
-                      Welcome back, {user?.name}! 👋
-                    </CardTitle>
-                    <CardDescription className="text-primary-foreground/80">
-                      {hasCompletedToday 
-                        ? "Great job! You&apos;ve completed today&apos;s check-in." 
-                        : "Ready for your daily wellness check-in?"}
-                    </CardDescription>
+                    <div className="text-xs text-white/80">Overall Progress</div>
+                    <div className="text-2xl font-bold">{completionRate}%</div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-sm text-primary-foreground/80">Current Streak</div>
-                    <div className="text-3xl font-bold">{currentStreak()} days</div>
+                  <div>
+                    <div className="text-xs text-white/80">Milestones</div>
+                    <div className="text-2xl font-bold">2 achieved</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-white/80">Chat Goals</div>
+                    <div className="text-2xl font-bold">12 this week</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-white/80">Streak</div>
+                    <div className="text-2xl font-bold">{currentStreak()} days</div>
                   </div>
                 </div>
               </CardHeader>
             </Card>
 
-            {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Card className="animate-scale-in">
+            {/* Support Resources */}
+            <div>
+              <h2 className="text-lg font-semibold mb-4">Support Resources</h2>
+              <div className="grid grid-cols-4 gap-4">
+                <Card 
+                  className="p-4 text-center hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => setActiveView('chat')}
+                >
+                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <MessageCircle className="h-6 w-6 text-purple-600" />
+                  </div>
+                  <div className="text-sm font-medium">Chat with LiLo</div>
+                </Card>
+                
+                <Card 
+                  className="p-4 text-center hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => setActiveView('schedule')}
+                >
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <Calendar className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <div className="text-sm font-medium">Schedule Check In</div>
+                </Card>
+                
+                <Card 
+                  className="p-4 text-center hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => window.open('#', '_self')}
+                >
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <CheckCircle2 className="h-6 w-6 text-green-600" />
+                  </div>
+                  <div className="text-sm font-medium">Browse Resources</div>
+                </Card>
+                
+                <Card 
+                  className="p-4 text-center hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => window.open('#', '_self')}
+                >
+                  <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <User className="h-6 w-6 text-orange-600" />
+                  </div>
+                  <div className="text-sm font-medium">Community</div>
+                </Card>
+              </div>
+            </div>
+
+            {/* Health Categories */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Mental Health */}
+              <Card 
+                className="animate-fade-in hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => handleHealthCardClick('Mental Health')}
+              >
                 <CardContent className="p-6">
-                  <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-success/10 rounded-full">
-                      <CheckCircle2 className="h-6 w-6 text-success" />
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                        <span className="text-purple-600 font-bold">M</span>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-purple-600">Mental Health</h3>
+                        <p className="text-xs text-muted-foreground">2 hours ago</p>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-2xl font-bold text-success">{completionRate}%</div>
-                      <div className="text-sm text-muted-foreground">Completion Rate</div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-green-600">{getCategoryProgress('Mental Health')}%</div>
+                      <div className="text-xs text-green-600">+8%</div>
                     </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Emotional well-being and mental health support
+                  </p>
+                  <div>
+                    <h4 className="font-medium text-sm mb-2">Ally Resources</h4>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Comprehensive guides, communication tools, and educational materials to support your loved ones in this dimension
+                    </p>
+                    <Button variant="link" className="text-purple-600 p-0 h-auto text-xs">
+                      Explore Resources →
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="animate-scale-in" style={{ animationDelay: '0.1s' }}>
+              {/* Physical Health */}
+              <Card 
+                className="animate-fade-in hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => handleHealthCardClick('Physical Health')}
+              >
                 <CardContent className="p-6">
-                  <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-primary/10 rounded-full">
-                      <TrendingUp className="h-6 w-6 text-primary" />
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span className="text-blue-600 font-bold">P</span>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-blue-600">Physical Health</h3>
+                        <p className="text-xs text-muted-foreground">1 day ago</p>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-2xl font-bold text-primary">{dailyEntries.length}</div>
-                      <div className="text-sm text-muted-foreground">Total Check-ins</div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-green-600">{getCategoryProgress('Physical Health')}%</div>
+                      <div className="text-xs text-green-600">+6%</div>
                     </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Body wellness and physical care
+                  </p>
+                  <div>
+                    <h4 className="font-medium text-sm mb-2">Ally Resources</h4>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Comprehensive guides, communication tools, and educational materials to support your loved ones in this dimension
+                    </p>
+                    <Button variant="link" className="text-blue-600 p-0 h-auto text-xs">
+                      Explore Resources →
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
+              {/* Social Health */}
+              <Card 
+                className="animate-fade-in hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => handleHealthCardClick('Social Health')}
+              >
                 <CardContent className="p-6">
-                  <div className="flex items-center space-x-4">
-                    <div className="p-3 bg-accent/10 rounded-full">
-                      <Clock className="h-6 w-6 text-accent" />
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
+                        <span className="text-teal-600 font-bold">S</span>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-teal-600">Social Health</h3>
+                        <p className="text-xs text-muted-foreground">3 hours ago</p>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-2xl font-bold text-accent">{currentStreak()}</div>
-                      <div className="text-sm text-muted-foreground">Day Streak</div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-orange-600">{getCategoryProgress('Social Health')}%</div>
+                      <div className="text-xs text-red-500">-5%</div>
                     </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Community connection and relationships
+                  </p>
+                  <div>
+                    <h4 className="font-medium text-sm mb-2">Ally Resources</h4>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Comprehensive guides, communication tools, and educational materials to support your loved ones in this dimension
+                    </p>
+                    <Button variant="link" className="text-teal-600 p-0 h-auto text-xs">
+                      Explore Resources →
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sexual Health */}
+              <Card 
+                className="animate-fade-in hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => handleHealthCardClick('Sexual Health')}
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                        <span className="text-pink-600 font-bold">❤️</span>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-pink-600">Sexual Health</h3>
+                        <p className="text-xs text-muted-foreground">5 days ago</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-bold text-orange-600">{getCategoryProgress('Sexual Health')}%</div>
+                      <div className="text-xs text-red-500">-8%</div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Sexual wellness and intimate health
+                  </p>
+                  <div>
+                    <h4 className="font-medium text-sm mb-2">Ally Resources</h4>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Comprehensive guides, communication tools, and educational materials to support your loved ones in this dimension
+                    </p>
+                    <Button variant="link" className="text-pink-600 p-0 h-auto text-xs">
+                      Explore Resources →
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Today's Status */}
-            <Card className="animate-fade-in">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Calendar className="h-5 w-5" />
-                  <span>Today&apos;s Status</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {hasCompletedToday ? (
-                  <div className="flex items-center space-x-3 p-4 bg-success/10 rounded-lg">
-                    <CheckCircle2 className="h-6 w-6 text-success" />
+            {/* Reproductive Health - Full Width */}
+            <Card 
+              className="animate-fade-in hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => handleHealthCardClick('Reproductive Health')}
+            >
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                      <span className="text-red-600 font-bold">R</span>
+                    </div>
                     <div>
-                      <div className="font-semibold text-success">Daily check-in completed!</div>
-                      <div className="text-sm text-muted-foreground">
-                        You&apos;ve successfully tracked all your health metrics today.
-                      </div>
+                      <h3 className="font-semibold text-red-600">Reproductive Health</h3>
+                      <p className="text-xs text-muted-foreground">1 week ago</p>
                     </div>
                   </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-3 p-4 bg-warning/10 rounded-lg">
-                      <Clock className="h-6 w-6 text-warning" />
-                      <div>
-                        <div className="font-semibold text-warning">Daily check-in pending</div>
-                        <div className="text-sm text-muted-foreground">
-                          Complete your health metrics for today to maintain your streak.
-                        </div>
-                      </div>
-                    </div>
-                    <Button 
-                      onClick={() => setActiveView('checkin')}
-                      className="w-full bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-medium"
-                    >
-                      Complete Daily Check-in
-                    </Button>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-orange-600">{getCategoryProgress('Reproductive Health')}%</div>
+                    <div className="text-xs text-green-600">+5%</div>
                   </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Health Metrics Preview */}
-            <Card className="animate-fade-in">
-              <CardHeader>
-                <CardTitle>Your Health Metrics</CardTitle>
-                <CardDescription>
-                  Track these 5 key areas of your wellness journey
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                  {metrics.map((metric, index) => (
-                    <div 
-                      key={metric.id}
-                      className="p-4 border rounded-lg hover:shadow-soft transition-all duration-200 animate-scale-in"
-                      style={{ animationDelay: `${index * 0.1}s` }}
-                    >
-                      <div className="text-center space-y-2">
-                        <div className="text-2xl">{metric.icon}</div>
-                        <div className="font-semibold text-sm">{metric.name}</div>
-                        <Badge variant="outline" className="text-xs">
-                          {metric.questions.length} questions
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Reproductive care and family planning
+                </p>
+                <div>
+                  <h4 className="font-medium text-sm mb-2">Ally Resources</h4>
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Comprehensive guides, communication tools, and educational materials to support your loved ones in this dimension
+                  </p>
+                  <Button variant="link" className="text-red-600 p-0 h-auto text-xs">
+                    Explore Resources →
+                  </Button>
                 </div>
               </CardContent>
             </Card>
+
+            {/* Quick Action */}
+            {!hasCompletedAllToday() && (
+              <Card className="bg-gradient-primary text-white animate-fade-in">
+                <CardContent className="p-6 text-center">
+                  <h3 className="text-lg font-semibold mb-2">Ready for Today's Check-in?</h3>
+                  <p className="text-white/90 mb-4">
+                    Complete your daily wellness assessment to maintain your {currentStreak()}-day streak
+                  </p>
+                  <Button 
+                    onClick={() => setActiveView('checkin')}
+                    className="bg-white text-purple-600 hover:bg-gray-100"
+                  >
+                    <CheckCircle2 className="h-4 w-4 mr-2" />
+                    Start Daily Check-in
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </div>
         );
     }
@@ -210,7 +421,10 @@ const Dashboard: React.FC = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-primary">Pridally</h1>
+              <h1 className="text-2xl font-bold text-primary">
+                <span className="text-blue-600">🦋</span>
+                PRIDallY
+              </h1>
               <Badge variant="outline" className="hidden md:flex">
                 Daily Health Tracker
               </Badge>
@@ -227,7 +441,7 @@ const Dashboard: React.FC = () => {
                 variant={activeView === 'checkin' ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => setActiveView('checkin')}
-                disabled={hasCompletedToday}
+                disabled={hasCompletedAllToday()}
               >
                 <CheckCircle2 className="h-4 w-4 mr-1" />
                 Check-in

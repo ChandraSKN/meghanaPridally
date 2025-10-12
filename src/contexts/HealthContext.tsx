@@ -23,7 +23,8 @@ export interface DailyEntry {
 interface HealthContextType {
   metrics: HealthMetric[];
   dailyEntries: DailyEntry[];
-  hasCompletedToday: boolean;
+  hasCompletedToday: () => boolean;
+  hasCompletedAllToday: () => boolean;
   submitDailyEntry: (responses: Record<string, any>) => void;
   getDailyEntry: (date: string) => DailyEntry | undefined;
 }
@@ -31,7 +32,7 @@ interface HealthContextType {
 const healthMetrics: HealthMetric[] = [
   {
     id: 'mood',
-    name: 'Mood & Mental Health',
+    name: 'Mental Health',
     icon: '🧠',
     color: 'medical-blue',
     description: 'Track your emotional wellbeing and mental state',
@@ -56,34 +57,34 @@ const healthMetrics: HealthMetric[] = [
     ]
   },
   {
-    id: 'sleep',
-    name: 'Sleep Quality',
-    icon: '😴',
+    id: 'sexual_health',
+    name: 'Sexual Health',
+    icon: '💕',
     color: 'calm-purple',
-    description: 'Monitor your sleep patterns and quality',
+    description: 'Track your sexual wellness and intimate health',
     questions: [
       {
-        id: 'sleep_hours',
-        question: 'How many hours did you sleep last night?',
+        id: 'sexual_satisfaction',
+        question: 'How satisfied are you with your sexual life?',
         type: 'scale',
-        scale: { min: 0, max: 12, labels: ['0-2h', '3-4h', '5-6h', '7-8h', '9+h'] }
+        scale: { min: 1, max: 10, labels: ['Very Dissatisfied', 'Dissatisfied', 'Neutral', 'Satisfied', 'Very Satisfied'] }
       },
       {
-        id: 'sleep_quality',
-        question: 'How would you rate your sleep quality?',
+        id: 'sexual_comfort',
+        question: 'How comfortable do you feel discussing sexual health?',
         type: 'scale',
-        scale: { min: 1, max: 10, labels: ['Very Poor', 'Poor', 'Fair', 'Good', 'Excellent'] }
+        scale: { min: 1, max: 10, labels: ['Very Uncomfortable', 'Uncomfortable', 'Neutral', 'Comfortable', 'Very Comfortable'] }
       },
       {
-        id: 'refreshed',
-        question: 'Do you feel refreshed after sleeping?',
+        id: 'sexual_wellness_concern',
+        question: 'Do you have any concerns about your sexual health?',
         type: 'boolean'
       }
     ]
   },
   {
     id: 'exercise',
-    name: 'Physical Activity',
+    name: 'Physical Health',
     icon: '💪',
     color: 'energy-orange',
     description: 'Track your exercise and physical activity levels',
@@ -109,34 +110,33 @@ const healthMetrics: HealthMetric[] = [
     ]
   },
   {
-    id: 'nutrition',
-    name: 'Nutrition & Diet',
-    icon: '🥗',
+    id: 'reproductive_health',
+    name: 'Reproductive Health',
+    icon: '🌸',
     color: 'wellness-green',
-    description: 'Monitor your eating habits and nutrition',
+    description: 'Monitor your reproductive wellness and menstrual health',
     questions: [
       {
-        id: 'meals_count',
-        question: 'How many balanced meals did you have today?',
-        type: 'scale',
-        scale: { min: 0, max: 5, labels: ['None', '1 meal', '2 meals', '3 meals', '4+ meals'] }
-      },
-      {
-        id: 'water_intake',
-        question: 'How much water did you drink today?',
-        type: 'scale',
-        scale: { min: 1, max: 8, labels: ['<2 cups', '2-4 cups', '4-6 cups', '6-8 cups', '8+ cups'] }
-      },
-      {
-        id: 'healthy_choices',
-        question: 'Did you make healthy food choices today?',
+        id: 'menstrual_cycle',
+        question: 'Are you currently tracking your menstrual cycle?',
         type: 'boolean'
+      },
+      {
+        id: 'reproductive_concerns',
+        question: 'Do you have any reproductive health concerns?',
+        type: 'boolean'
+      },
+      {
+        id: 'contraceptive_satisfaction',
+        question: 'How satisfied are you with your current contraceptive method (if applicable)?',
+        type: 'scale',
+        scale: { min: 1, max: 10, labels: ['Very Dissatisfied', 'Dissatisfied', 'Neutral', 'Satisfied', 'Very Satisfied'] }
       }
     ]
   },
   {
     id: 'social',
-    name: 'Social Connection',
+    name: 'Social Health',
     icon: '👥',
     color: 'focus-indigo',
     description: 'Track your social interactions and relationships',
@@ -183,18 +183,49 @@ export const HealthProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, []);
 
   const getTodayString = () => {
-    return new Date().toISOString().split('T')[0];
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
-  const hasCompletedToday = dailyEntries.some(
-    entry => entry.date === getTodayString() && entry.completed
-  );
+  const hasCompletedToday = () => {
+    const todayEntry = dailyEntries.find(entry => entry.date === getTodayString());
+    if (!todayEntry) return false;
+    
+    // Check if all categories have at least one response
+    const allQuestions = healthMetrics.flatMap(metric => metric.questions);
+    const answeredQuestions = allQuestions.filter(q => 
+      todayEntry.responses[q.id] !== undefined
+    );
+    
+    return answeredQuestions.length > 0; // Has some progress
+  };
+
+  const hasCompletedAllToday = () => {
+    const todayEntry = dailyEntries.find(entry => entry.date === getTodayString());
+    if (!todayEntry) return false;
+    
+    // Check if all questions are answered
+    const allQuestions = healthMetrics.flatMap(metric => metric.questions);
+    return allQuestions.every(q => todayEntry.responses[q.id] !== undefined);
+  };
 
   const submitDailyEntry = (responses: Record<string, any>) => {
     const today = getTodayString();
+    
+    // Find existing entry for today
+    const existingEntry = dailyEntries.find(entry => entry.date === today);
+    
+    // Merge new responses with existing ones
+    const mergedResponses = existingEntry 
+      ? { ...existingEntry.responses, ...responses }
+      : responses;
+    
     const newEntry: DailyEntry = {
       date: today,
-      responses,
+      responses: mergedResponses,
       completed: true,
     };
 
@@ -213,6 +244,7 @@ export const HealthProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     metrics: healthMetrics,
     dailyEntries,
     hasCompletedToday,
+    hasCompletedAllToday,
     submitDailyEntry,
     getDailyEntry,
   };
