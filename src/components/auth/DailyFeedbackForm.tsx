@@ -9,10 +9,9 @@ import { Eye, EyeOff, Heart } from 'lucide-react';
 
 interface AuthFormProps {
   onBack: () => void;
-  onSignUpRedirect?: () => void;
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ onBack, onSignUpRedirect }) => {
+const AuthForm: React.FC<AuthFormProps> = ({ onBack }) => {
   const [isSignIn, setIsSignIn] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,16 +36,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ onBack, onSignUpRedirect }) => {
       }
 
       if (success) {
-        if (!isSignIn && onSignUpRedirect) {
-          // For sign up, redirect to PridAlly form for pathway selection
-          onSignUpRedirect();
-        } else {
-          // For sign in, show success message and continue to dashboard
-          toast({
-            title: isSignIn ? "Welcome back!" : "Account created!",
-            description: isSignIn ? "You've been signed in successfully." : "Your account has been created and you're now signed in.",
-          });
-        }
+        toast({
+          title: isSignIn ? "Welcome back!" : "Account created!",
+          description: isSignIn ? "You've been signed in successfully." : "Your account has been created and you're now signed in.",
+        });
       } else {
         toast({
           title: "Authentication failed",

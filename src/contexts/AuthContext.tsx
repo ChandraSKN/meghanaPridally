@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signup = async (email: string, password: string, name: string): Promise<boolean> => {
-    // Simulate registration
+    // Simulate registration - signup page
     if (email && password && name) {
       const userData = {
         id: Math.random().toString(36).substr(2, 9),
