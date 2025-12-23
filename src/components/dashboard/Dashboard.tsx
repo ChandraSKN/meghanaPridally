@@ -418,13 +418,22 @@ const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-background">
       {/* Navigation Header */}
       <header className="bg-card shadow-soft border-b">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container px-4 py-1">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-primary">
-                <span className="text-blue-600">🦋</span>
-                PRIDallY
-              </h1>
+            <div className="flex items-center space-x-2">
+              <div>
+                <img 
+                  src="/Pridally_logo.png" 
+                  alt="Pridally" 
+                  className="h-[6rem] w-auto brightness-130 contrast-125"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (fallback) fallback.style.display = 'inline';
+                  }}
+                />
+                <span className="text-4xl font-bold text-white mb-8 block" style={{display: 'none'}}>Pridally</span>
+              </div>
               <Badge variant="outline" className="hidden md:flex">
                 Daily Health Tracker
               </Badge>

@@ -1,3 +1,8 @@
 {
-  "/page": "app/page.js"
+  "/why_pridally/page": "app/why_pridally/page.js",
+  "/page": "app/page.js",
+  "/safeguarding/page": "app/safeguarding/page.js",
+  "/solution_uni/page": "app/solution_uni/page.js",
+  "/solution_individual/page": "app/solution_individual/page.js",
+  "/solution_nhs/page": "app/solution_nhs/page.js"
 }
