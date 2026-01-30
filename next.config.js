@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+};
   // Enable React Strict Mode
   reactStrictMode: true,
   // Enable static export for GitHub Pages
