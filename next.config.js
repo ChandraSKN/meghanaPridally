@@ -1,16 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // Enable React Strict Mode
   reactStrictMode: true,
+  // Enable static export for GitHub Pages
   output: 'export',
+  // Disable image optimization for static export
   images: {
     unoptimized: true,
   },
-  basePath: '/pridally-daily-guide',
-  assetPrefix: '/pridally-daily-guide/',
+  // Configure base path for GitHub Pages (will be set by environment variable)
+  basePath: process.env.NODE_ENV === 'production' ? '/pridally-daily-guide' : '',
+  // Trailing slash for GitHub Pages compatibility
   trailingSlash: true,
-};
+  // Transpile packages if needed
+  transpilePackages: [],
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
