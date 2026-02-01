@@ -12,7 +12,6 @@ interface PridAllyFormProps {
 }
 
 const PridAllyForm: React.FC<PridAllyFormProps> = ({ onBack, onPrydAccess, onAllyAccess }) => {
-  const { signin } = useAuth();
   const { toast } = useToast();
 
   const handlePathwaySelection = async (pathway: 'pryd' | 'ally') => {
@@ -24,8 +23,8 @@ const PridAllyForm: React.FC<PridAllyFormProps> = ({ onBack, onPrydAccess, onAll
         // For Ally Access, redirect to gender identity form with simplified options
         onAllyAccess();
       } else {
-        // Fallback - shouldn't reach here with current setup
         toast({
+          // Fallback - shouldn't reach here with current setup
           title: `Welcome to ${pathway === 'ally' ? 'Ally' : 'Pryd'} Access!`,
           description: `You've selected the ${pathway === 'ally' ? 'Ally' : 'Pryd'} pathway. Redirecting to your dashboard...`,
         });
@@ -67,7 +66,7 @@ const PridAllyForm: React.FC<PridAllyFormProps> = ({ onBack, onPrydAccess, onAll
                     </div>
                     
                     {/* Title */}
-                    <h2 className="text-2xl font-bold text-gray-800">Pryd Access</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">Prid Access</h2>
                     
                     {/* Description */}
                     <p className="text-gray-600 text-sm">

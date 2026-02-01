@@ -1,25 +1,108 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart, Activity, Brain, Calendar, MessageCircle, Shield, Menu, X, ChevronDown } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Heart, Brain, MessageCircle, Shield, Menu, X, ChevronDown, ArrowRight, Sparkles, CheckCircle2, Users, Lock, Zap, BarChart3, BookOpen, Activity, Eye, Target, Compass } from 'lucide-react';
 
 interface WhyPridallyPageProps {
   onGetStarted: () => void;
 }
 
 const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [activeCategory, setActiveCategory] = useState('All Posts');
+
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
 
+  const year = new Date().getFullYear();
+
+  const whyPridallyFeatures = [
+    { 
+      icon: <Heart className="h-7 w-7" />, 
+      title: 'Identity-Aware Care', 
+      description: 'No explaining. No justifying. Just support.', 
+      color: 'text-pink-500', 
+      bg: 'bg-pink-50',
+      gradient: 'from-pink-500 to-rose-500'
+    },
+    { 
+      icon: <BookOpen className="h-7 w-7" />, 
+      title: 'Evidence, Not Opinions', 
+      description: 'Queerpedia = science, minus the shame.', 
+      color: 'text-purple-500', 
+      bg: 'bg-purple-50',
+      gradient: 'from-purple-500 to-indigo-500'
+    },
+    { 
+      icon: <Shield className="h-7 w-7" />, 
+      title: 'Bias-Free Medication Info', 
+      description: 'Real guidance. Real bodies. Real lives.', 
+      color: 'text-blue-500', 
+      bg: 'bg-blue-50',
+      gradient: 'from-blue-500 to-cyan-500'
+    },
+    { 
+      icon: <Activity className="h-7 w-7" />, 
+      title: 'Holistic Health', 
+      description: 'Mental. Physical. Sexual. Reproductive. Social.', 
+      color: 'text-green-500', 
+      bg: 'bg-green-50',
+      gradient: 'from-green-500 to-emerald-500'
+    }
+  ];
+
+  const stats = [
+    { number: '315+', label: 'Early supporters', icon: <Users className="h-6 w-6" /> },
+    { number: '5', label: 'Dimension wellbeing model', icon: <Compass className="h-6 w-6" /> },
+    { number: '∞', label: 'Built for people + services', icon: <Heart className="h-6 w-6" /> }
+  ];
+
+  const values = [
+    { 
+      title: 'Affirming', 
+      description: "You're already enough.", 
+      emoji: '💜',
+      color: 'from-purple-500 to-pink-500'
+    },
+    { 
+      title: 'Unfixed', 
+      description: "We don't box journeys.", 
+      emoji: '🦋',
+      color: 'from-pink-500 to-orange-500'
+    },
+    { 
+      title: 'Grounded', 
+      description: 'Safe, steady, real care.', 
+      emoji: '🌱',
+      color: 'from-green-500 to-teal-500'
+    },
+    { 
+      title: 'Compassionate', 
+      description: 'Warmth before judgement.', 
+      emoji: '🤗',
+      color: 'from-orange-500 to-amber-500'
+    },
+    { 
+      title: 'Validated', 
+      description: 'Evidence-led, always.', 
+      emoji: '✅',
+      color: 'from-blue-500 to-indigo-500'
+    }
+  ];
+
+  const healthDimensions = [
+    { emoji: '🧠', label: 'Mental', color: 'from-purple-500 to-indigo-500' },
+    { emoji: '💪', label: 'Physical', color: 'from-blue-500 to-cyan-500' },
+    { emoji: '❤️', label: 'Sexual', color: 'from-pink-500 to-rose-500' },
+    { emoji: '🤰', label: 'Reproductive', color: 'from-orange-500 to-amber-500' },
+    { emoji: '🤝', label: 'Social', color: 'from-green-500 to-emerald-500' }
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       {/* Navigation Bar */}
-        <nav className="sticky top-0 z-50 bg-transparent backdrop-blur-md border-b border-white/10">
+       <nav className="sticky top-0 z-50 bg-transparent backdrop-blur-md border-b border-white/10">
             <div className="w-full px-8">
             <div className="flex items-center justify-between h-16">
                 {/* Logo */}
@@ -183,248 +266,246 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
         </nav>
 
       {/* Main Content */}
-      <main className="flex-grow container mx-auto px-4 py-16">
-        {/* 💖 Hero Banner */}
+      <main className="flex-grow">
+        {/* Hero Section */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-pink-100 via-white to-white opacity-80 pointer-events-none" />
-          <div className="relative grid md:grid-cols-2 gap-8 items-center">
-            <div className="space-y-6 animate-in fade-in slide-in-from-left duration-700">
-              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900">
-                ✨ Care that meets you gently, right where you are.
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400" />
+          
+          {/* Decorative elements */}
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-20 left-10 w-72 h-72 bg-white/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl" />
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-300/10 rounded-full blur-3xl" />
+          </div>
+
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white/90 text-sm mb-6">
+                <Sparkles className="h-4 w-4" />
+                ✨ Why PRIDaLLY
+              </div>
+              
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                Care that affirms —<br />
+                <span className="text-white/90">never fixes.</span>
               </h1>
-              <p className="text-lg text-gray-700">
-                🌈 Whether you’re navigating identity, health, or healing — PRIDaLLY offers warmth, wisdom, and safety at every step.
+              
+              <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed">
+                Rooted in compassion. Backed by science.
               </p>
-              <div className="flex flex-wrap gap-3">
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
                   onClick={onGetStarted}
-                  className="rounded-full bg-black text-white hover:bg-gray-800 transition-all duration-300 hover:scale-[1.02]"
+                  size="lg"
+                  className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all group"
                 >
                   Join Pridally
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <Button
                   onClick={() => window.location.href = '/contact'}
-                  className="rounded-full bg-white border border-gray-300 text-gray-900 hover:bg-gray-100 transition-all duration-300 hover:scale-[1.02]"
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-white text-white bg-transparent hover:bg-white/10 px-8 py-6 text-lg rounded-full"
                 >
                   Talk to Us
                 </Button>
               </div>
             </div>
-            <div className="relative rounded-2xl bg-gradient-to-tr from-fuchsia-200 via-indigo-200 to-sky-200 h-64 md:h-80 animate-in fade-in slide-in-from-right duration-700">
-              <div className="absolute inset-0 mix-blend-multiply opacity-60 blur-2xl animate-pulse" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="rounded-xl bg-white/70 backdrop-blur-md p-6 shadow-xl border border-white/50">
-                  <div className="flex items-center gap-3">
-                    <Heart className="h-6 w-6 text-rose-600" />
-                    <span className="font-semibold text-gray-900">Affirming, ethics-first care</span>
+          </div>
+
+          {/* Wave divider */}
+          <div className="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+            </svg>
+          </div>
+        </section>
+
+        {/* Why PRIDaLLY Features Section */}
+        <section className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">✨ Why PRIDaLLY</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Built different. Built better. Built for you.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+              {whyPridallyFeatures.map((feature, index) => (
+                <Card 
+                  key={index}
+                  className={`group relative overflow-hidden ${feature.bg} border-0 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
+                >
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.gradient} opacity-10 rounded-full blur-2xl group-hover:opacity-20 transition-opacity`} />
+                  
+                  <CardHeader className="pb-2">
+                    <div className={`w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform ${feature.color}`}>
+                      {feature.icon}
+                    </div>
+                    <CardTitle className="text-2xl text-gray-900">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 text-lg">
+                      {feature.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* By the Numbers Section */}
+        <section className="py-20 md:py-28 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 relative overflow-hidden">
+          {/* Decorative elements */}
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-10 left-20 w-64 h-64 bg-white/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-10 right-20 w-80 h-80 bg-purple-300/20 rounded-full blur-3xl" />
+          </div>
+
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white/90 text-sm mb-6">
+                <BarChart3 className="h-4 w-4" />
+                📊 By the Numbers
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Growing Together</h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+              {stats.map((stat, index) => (
+                <div 
+                  key={index}
+                  className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 text-center border border-white/20 hover:bg-white/20 transition-all"
+                >
+                  <div className="text-white/80 flex justify-center mb-4">
+                    {stat.icon}
                   </div>
-                  <p className="mt-3 text-sm text-gray-700">
-                    Warm design, community voice, and privacy at the core.
-                  </p>
+                  <div className="text-5xl md:text-6xl font-bold text-white mb-2">{stat.number}</div>
+                  <p className="text-white/80 text-lg">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Meet Lilo Section */}
+        <section className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 bg-purple-100 px-4 py-2 rounded-full text-purple-700 text-sm mb-6">
+                  <span className="text-lg">🐛</span>
+                  Meet Your Companion
+                </div>
+                <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Meet Lilo</h2>
+                <p className="text-xl text-gray-600 italic">
+                  "Life's not a straight line — it's a Lila. And I'm here for the journey."
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 rounded-3xl p-8 md:p-12 border border-purple-100">
+                <div className="flex flex-col md:flex-row items-center gap-8">
+                  {/* Lilo Visual */}
+                  <div className="flex-shrink-0">
+                    <div className="w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-purple-200 via-pink-200 to-orange-200 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-6xl md:text-7xl">🐛</span>
+                    </div>
+                    <div className="flex justify-center mt-4">
+                      <span className="text-2xl">→</span>
+                      <span className="text-4xl ml-2">🦋</span>
+                    </div>
+                  </div>
+
+                  {/* Lilo Description */}
+                  <div className="flex-grow text-center md:text-left">
+                    <p className="text-xl text-gray-700 mb-6">
+                      Your soft-voiced, rainbow-hued caterpillar companion. They grow as you grow — messy, proud, and real.
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-6">
+                      <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Warm</span>
+                      <span className="px-4 py-2 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">Validating</span>
+                      <span className="px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">A little cheeky</span>
+                      <span className="px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Very human</span>
+                    </div>
+
+                    <blockquote className="bg-white rounded-2xl p-6 border-l-4 border-purple-400 shadow-sm">
+                      <p className="text-gray-700 italic">
+                        "Lila = magic. And I'm here as a companion in your Lila."
+                      </p>
+                    </blockquote>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 🧠 What Is PRIDaLLY? */}
-        <section className="mt-16">
-          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
-            <CardHeader>
-              <CardTitle>What Is PRIDaLLY?</CardTitle>
-              <CardDescription>
-                Your one-stop health and care solution for LGBTQIA+ individuals and allies.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700">
-              <p>
-                It’s not just an app. It’s a living, breathing support system — powered by science, shaped by community, and designed to help you feel seen, supported, and safe.
+        {/* CTA Section */}
+        <section className="py-20 md:py-28 relative overflow-hidden">
+          {/* Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400" />
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-10 right-20 w-64 h-64 bg-white/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 left-10 w-80 h-80 bg-purple-300/20 rounded-full blur-3xl" />
+          </div>
+
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white/90 text-sm mb-6">
+                <Sparkles className="h-4 w-4" />
+                Ready to begin?
+              </div>
+              
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+                Your journey starts here.
+              </h2>
+              <p className="text-xl text-white/90 mb-10 max-w-xl mx-auto">
+                Join a community that sees you, supports you, and celebrates you.
               </p>
-            </CardContent>
-          </Card>
-        </section>
 
-        {/* 🧬 What Makes Us Different */}
-        <section className="mt-16 grid md:grid-cols-2 gap-6">
-          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
-            <CardHeader>
-              <CardTitle>What Makes Us Different?</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700 space-y-2">
-              <p>We’re not here to “fix” you. We’re here to:</p>
-              <ul className="list-disc ml-5 space-y-1">
-                <li>Affirm your identity</li>
-                <li>Centre your voice</li>
-                <li>Respect your privacy</li>
-                <li>Deliver care that’s both soft and strong</li>
-              </ul>
-              <p className="mt-2">Other apps might help you with one thing. We’re your one-stop health ally.</p>
-            </CardContent>
-          </Card>
-
-          {/* 🔍 Key Features */}
-          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
-            <CardHeader>
-              <CardTitle>Key Features</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700 space-y-2">
-              <ul className="list-disc ml-5 space-y-1">
-                <li>🧠 Quick Assessment – private, tailored, in your words</li>
-                <li>💬 Chat Companion – Lilo is here to talk, listen, and guide</li>
-                <li>📖 Mood + Journal Log – reflect and track your growth</li>
-                <li>📊 Personal Insights – gentle nudges from your patterns</li>
-                <li>🧪 Research-Backed – in partnership with universities & clinicians</li>
-                <li>🛡️ Safety Scores – AI + human-reviewed interactions</li>
-              </ul>
-              <div className="mt-3">
-                <div className="font-medium">💡 Five-Dimensional Health</div>
-                <div className="flex flex-wrap gap-2 text-xs mt-2">
-                  <span className="px-2 py-1 rounded-full bg-gray-100">Mental 🧠</span>
-                  <span className="px-2 py-1 rounded-full bg-gray-100">Physical 💪</span>
-                  <span className="px-2 py-1 rounded-full bg-gray-100">Sexual ❤️</span>
-                  <span className="px-2 py-1 rounded-full bg-gray-100">Reproductive 🤰</span>
-                  <span className="px-2 py-1 rounded-full bg-gray-100">Social 🤝</span>
-                </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button
+                  onClick={onGetStarted}
+                  size="lg"
+                  className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all group"
+                >
+                  Join Pridally
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button
+                  onClick={() => window.location.href = '/contact'}
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-white text-white bg-transparent hover:bg-white/10 px-8 py-6 text-lg rounded-full"
+                >
+                  Partner With Us
+                </Button>
               </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* 🛡️ Safety First */}
-        <section className="mt-16">
-          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
-            <CardHeader>
-              <CardTitle>Safety First. Always.</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700">
-              <p>We believe safety isn’t a feature — it’s a foundation.</p>
-              <ul className="list-disc ml-5 mt-2 space-y-1">
-                <li>🔒 Privacy by design</li>
-                <li>👤 Human + AI review of all features</li>
-                <li>📊 Safety Scores + scenario testing</li>
-                <li>🔍 Real-time feedback loop</li>
-                <li>🧠 Ethical AI with a soul</li>
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* 🐛 Coming Soon: LiLo */}
-        <section className="mt-16 grid md:grid-cols-2 gap-6">
-          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
-            <CardHeader>
-              <CardTitle>Coming Soon: Our New Chat Companion — LiLo</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700 space-y-2">
-              <p>
-                Lilo evolves with you. Every challenge and breakthrough — they grow alongside you, until one day… 🦋 Lila they become a butterfly and embrace you.
-              </p>
-              <div className="mt-2">
-                <div className="font-medium">“Voices of Pride”</div>
-                <ul className="list-disc ml-5 space-y-1">
-                  <li>“PRIDaLLY helped me track my transition and my mood swings in a way that didn’t feel clinical or cold.”</li>
-                  <li>“As a parent of a trans kid, I finally feel like I have tools to support them — and learn with them.”</li>
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* 📘 How It Works */}
-          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
-            <CardHeader>
-              <CardTitle>How It Works</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700 space-y-2">
-              <ul className="list-disc ml-5 space-y-1">
-                <li>Choose your path: User, Ally, or Provider</li>
-                <li>Set your goals: from mental wellness to medical needs</li>
-                <li>Use tools: Assessments, Journals, Forums, Insights</li>
-                <li>Grow: reflect, evolve, and thrive</li>
-                <li>Track your growth as your caterpillar companion transforms 🌈</li>
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* 🐛 Introducing: Lilo’s Lila */}
-        <section className="mt-16">
-          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
-            <CardHeader>
-              <CardTitle>Introducing: Lilo’s Lila</CardTitle>
-              <CardDescription>
-                “Life’s not a straight line — it’s a Lila. And I’m Lilo — your tiny, colorful buddy through every twist, pause, and proud leap.”
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700 space-y-3">
-              <p>
-                Lilo is your soft-voiced, rainbow-hued caterpillar companion — a witness, cheerleader, and low-key philosopher. They grow as you grow.
-              </p>
-              <div>
-                <div className="font-medium">What is Lilo’s Lila?</div>
-                <ul className="list-disc ml-5 space-y-1 mt-1">
-                  <li>🐛 Chat-based check-ins — affirming, trauma-informed</li>
-                  <li>🌤 Mood & Thought Logs — reflection without judgment</li>
-                  <li>📖 Daily nudges — prompts, reminders, poetic pick-me-ups</li>
-                  <li>🎨 Visual growth tracker — show up, and Lilo grows</li>
-                  <li>🦋 The Metamorphosis — unlock a pride-colored butterfly</li>
-                </ul>
-              </div>
-              <div>
-                <div className="font-medium">Voice Style: How Lilo Talks</div>
-                <ul className="list-disc ml-5 space-y-1 mt-1">
-                  <li>Warmly casual</li>
-                  <li>Validating, never “fixing”</li>
-                  <li>Bit cheeky: “Butterflies don’t fly straight either.”</li>
-                  <li>Philosophically playful</li>
-                </ul>
-              </div>
-              <div className="mt-2">
-                <div className="font-medium">Example Onboarding</div>
-                <p className="mt-1">
-                  “Hi there! I’m Lilo — they/them. I don’t have all the answers, but I’ve got rainbow antennae, and I’m really good at listening. This app is our playground, our space, our Lila. Ready to grow with me?”
-                </p>
-                <div className="mt-3">
-                  <Button
-                    onClick={onGetStarted}
-                    className="rounded-full bg-black text-white hover:bg-gray-800 transition-all duration-300 hover:scale-[1.02]"
-                  >
-                    Let’s Begin Lilo’s Lila 🌱
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Staff & Advisors CTA */}
-        <section className="mt-16">
-          <div className="rounded-2xl border bg-white p-8 shadow-sm hover:shadow-md transition-shadow duration-300 text-sm text-gray-700">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Staff & Advisors</h2>
-            <p className="mt-2">We’re building in partnership with clinicians, researchers, and community leaders.</p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <Button
-                onClick={() => window.location.href = '/press'}
-                className="rounded-full bg-black text-white hover:bg-gray-800 transition-all duration-300 hover:scale-[1.02]"
-              >
-                Meet Our Advisors
-              </Button>
-              <Button
-                onClick={() => window.location.href = '/contact'}
-                className="rounded-full bg-white border border-gray-300 text-gray-900 hover:bg-gray-100 transition-all duration-300 hover:scale-[1.02]"
-              >
-                Partner With Us
-              </Button>
             </div>
           </div>
         </section>
       </main>
-    
+
+      {/* Footer */}
       <footer className="py-12 bg-gray-900 text-white">
-        <div className=" mx-auto px-4">
-            <div className="text-center text-gray-400 text-sm">
-              © 2025 PRIDaLLY. All rights reserved.
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-gray-400 text-sm">
+              © {year} PRIDaLLY. All rights reserved.
+            </div>
+            <div className="flex items-center gap-6 text-sm text-gray-400">
+              <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>
+              <a href="/contact" className="hover:text-white transition-colors">Contact</a>
             </div>
           </div>
+        </div>
       </footer>
     </div>
   );

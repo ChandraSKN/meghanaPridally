@@ -58,7 +58,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
           playsInline
           className="w-full h-full object-cover contrast-105 brightness-110"
         >
-          <source src="/videos/pridally_video.mp4.mov" type="video/mp4" />
+          <source src="/videos/pridally_video_hero_page.mov" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         {/* Video overlay for better text readability - reduced opacity for brighter video */}
@@ -232,7 +232,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
         <div className="relative z-10 container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-screen">
           <div className="text-center mb-16 animate-fade-in">
             <h1 className="text-6xl md:text-8xl lg:text-[10rem] text-white mb-6 animate-slide-up drop-shadow-2xl tracking-wide">
-              PRiDalLY
+              PRIDalLY
             </h1>
             <p className="text-xl md:text-2xl lg:text-3xl text-white/90 mb-12 max-w-4xl mx-auto animate-slide-up drop-shadow-lg font-light leading-relaxed">
               One stop Health and Care Solution where
@@ -303,7 +303,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                   </h2>
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                     
-                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400">
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r py-2 from-purple-600 via-pink-500 to-orange-400">
                       Designed for queer lives
                     </span>
                   </h2>
@@ -439,9 +439,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 </span>
               </div>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed transition-all duration-300 translate-y-1 opacity-90 group-hover:translate-y-0 group-hover:opacity-100">
-                To create a world where every LGBTQIA+ person — and every ally — can access care that
-                sees, supports, and celebrates them. Where health isn’t just about survival, but about
-                thriving with dignity, visibility, and love.
+                Care where queer don't just survive - they thrive.
               </p>
             </article>
 
@@ -456,9 +454,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 </span>
               </div>
               <p className="text-sm md:text-base text-gray-700 leading-relaxed transition-all duration-300 translate-y-1 opacity-90 group-hover:translate-y-0 group-hover:opacity-100">
-                PRIDaLLY is your one-stop, queer-affirming health and care companion — combining
-                research, AI, and lived experience to support your mental, physical, sexual,
-                reproductive, and social well-being. Built for Pride. Built by Allies. Built for you.
+                A queer affirming health companion blending research, AI and lived experience. 
               </p>
             </article>
 
@@ -474,28 +470,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               </div>
 
               {/* Short, high-level bullets */}
-              <ul className="space-y-2 text-sm md:text-base text-gray-700">
-                <li className="transition-all duration-300 translate-y-1 opacity-90 group-hover:translate-y-0 group-hover:opacity-100">
-                  <span className="font-semibold">Love is love ·</span> Every identity and journey is valid and worth caring for.
-                </li>
-                <li className="transition-all duration-300 delay-75 translate-y-1 opacity-90 group-hover:translate-y-0 group-hover:opacity-100">
-                  <span className="font-semibold">Care is expression ·</span> Support should be visible, loud, and proud.
-                </li>
-                <li className="transition-all duration-300 delay-150 translate-y-1 opacity-90 group-hover:translate-y-0 group-hover:opacity-100">
-                  <span className="font-semibold">Science + Story ·</span> We blend clinical evidence with community truth.
-                </li>
-                <li className="transition-all duration-300 delay-200 translate-y-1 opacity-90 group-hover:translate-y-0 group-hover:opacity-100">
-                  <span className="font-semibold">Privacy = Power ·</span> You choose what you share and when.
-                </li>
-                <li className="transition-all duration-300 delay-300 translate-y-1 opacity-90 group-hover:translate-y-0 group-hover:opacity-100">
-                  <span className="font-semibold">Progress over perfection ·</span> Healing is messy; we’re here for all of it.
-                </li>
-              </ul>
-
-              {/* Compact ethos line */}
-              <p className="mt-4 text-xs md:text-sm text-gray-600 transition-all duration-300 group-hover:text-gray-700">
-                🌈 <span className="font-semibold">Ethos:</span> Soft, loud, wise, and wild — no shame, no erasure, just presence.
-              </p>
+              Care that affirms - never fixes.
+              Rooted in compassion. Backed by science.
             </article>
           </div>
         </div>
@@ -542,8 +518,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 <div className="text-gray-700">Health Metrics</div>
               </div>
               <div className="group">
-                <div className="text-5xl font-bold text-purple-600 mb-2 group-hover:scale-110 transition-transform duration-300">Daily</div>
-                <div className="text-gray-700">Check-ins</div>
+                <div className="text-5xl font-bold text-purple-600 mb-2 group-hover:scale-110 transition-transform duration-300">300+</div>
+                <div className="text-gray-700">Early supporters</div>
               </div>
               <div className="group">
                 <div className="text-5xl font-bold text-pink-600 mb-2 group-hover:scale-110 transition-transform duration-300">24/7</div>

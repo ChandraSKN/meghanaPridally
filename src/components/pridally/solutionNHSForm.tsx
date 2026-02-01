@@ -1,30 +1,79 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart, Activity, Brain, Calendar, MessageCircle, Shield, Menu, X, ChevronDown } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Heart, Activity, Brain, Clock, MessageCircle, Shield, Menu, X, ChevronDown, ArrowRight, Sparkles, CheckCircle2, BookOpen, Link2, BarChart3, Users } from 'lucide-react';
 
 interface SolutionNHSPageProps {
   onGetStarted: () => void;
 }
 
-// Lightweight helper icons using Lucide primitives
-const BookIcon: React.FC = () => <Brain className="h-5 w-5 text-indigo-600" />;
-const ChartIcon: React.FC = () => <Activity className="h-5 w-5 text-emerald-600" />;
-
 const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [activeCategory, setActiveCategory] = useState('All Posts');
+
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
-  const year = new Date().toISOString().slice(0, 4);
+
+  const year = new Date().getFullYear();
+
+  const problems = [
+    { icon: <Clock className="h-6 w-6" />, title: 'Long waits', color: 'text-red-500', bg: 'bg-red-50' },
+    { icon: <Shield className="h-6 w-6" />, title: 'Low trust', color: 'text-orange-500', bg: 'bg-orange-50' },
+    { icon: <Activity className="h-6 w-6" />, title: 'Drop-offs', color: 'text-yellow-500', bg: 'bg-yellow-50' },
+    { icon: <Brain className="h-6 w-6" />, title: 'Fragmented care', color: 'text-purple-500', bg: 'bg-purple-50' }
+  ];
+
+  const features = [
+    {
+      icon: <span className="text-2xl">🧭</span>,
+      title: 'Digital Companion',
+      description: 'Between visits',
+      gradient: 'from-blue-500 to-cyan-500',
+      bgGradient: 'from-blue-50 to-cyan-50',
+      borderColor: 'border-blue-200',
+      titleColor: 'text-blue-700'
+    },
+    {
+      icon: <BookOpen className="h-7 w-7 text-green-600" />,
+      title: 'Inclusive Education',
+      description: 'Less anxiety, better prep',
+      gradient: 'from-green-500 to-emerald-500',
+      bgGradient: 'from-green-50 to-emerald-50',
+      borderColor: 'border-green-200',
+      titleColor: 'text-green-700'
+    },
+    {
+      icon: <Link2 className="h-7 w-7 text-purple-600" />,
+      title: 'Safe Signposting',
+      description: 'Know when to seek help',
+      gradient: 'from-purple-500 to-pink-500',
+      bgGradient: 'from-purple-50 to-pink-50',
+      borderColor: 'border-purple-200',
+      titleColor: 'text-purple-700'
+    },
+    {
+      icon: <BarChart3 className="h-7 w-7 text-orange-600" />,
+      title: 'Ethical Insights',
+      description: 'Trends, not tracking',
+      gradient: 'from-orange-500 to-red-500',
+      bgGradient: 'from-orange-50 to-red-50',
+      borderColor: 'border-orange-200',
+      titleColor: 'text-orange-700'
+    }
+  ];
+
+  const safeguardingFeatures = [
+    { icon: <Heart className="h-6 w-6" />, text: 'Trauma-informed design', color: 'text-pink-500' },
+    { icon: <Shield className="h-6 w-6" />, text: 'Clear boundaries', color: 'text-blue-500' },
+    { icon: <Users className="h-6 w-6" />, text: 'Clinical + academic oversight', color: 'text-purple-500' },
+    { icon: <CheckCircle2 className="h-6 w-6" />, text: 'GDPR-aligned, ethics-led', color: 'text-green-500' }
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       {/* Navigation Bar */}
-        <nav className="sticky top-0 z-50 bg-transparent backdrop-blur-md border-b border-white/10">
+      <nav className="sticky top-0 z-50 bg-transparent backdrop-blur-md border-b border-white/10">
             <div className="w-full px-8">
             <div className="flex items-center justify-between h-16">
                 {/* Logo */}
@@ -187,258 +236,237 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
             </div>
         </nav>
 
+
+      
+      
+
       {/* Main Content */}
-      <main className="flex-grow container mx-auto px-4 py-16">
-        {/* Top CTA Bar */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Supporting LGBTQIA+ wellbeing — beyond appointments
-            </h1>
-            <p className="mt-2 text-gray-600">
-              For Services (NHS • Charities • Hospitals • Community Organisations)
-            </p>
+      <main className="flex-grow">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-teal-500 to-green-400" />
+          
+          {/* Decorative elements */}
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-20 left-10 w-72 h-72 bg-white/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl" />
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Button
-              onClick={() => window.location.href = '/contact?type=intro'}
-              className="bg-black text-white hover:bg-gray-800 rounded-full px-5 py-2"
-            >
-              Book a 20-min Intro
-            </Button>
-            <Button
-              onClick={() => window.location.href = '/partnerships'}
-              className="bg-white border border-gray-300 text-gray-900 hover:bg-gray-50 rounded-full px-5 py-2"
-            >
-              Explore Partnership Options
-            </Button>
+
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white/90 text-sm mb-6">
+                <span className="text-lg">🏥</span>
+                For Services (NHS • Charities • Community)
+              </div>
+              
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                Support beyond<br />
+                <span className="text-white/90">appointments.</span>
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
+                PRIDaLLY complements care — it doesn't replace it.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button
+                  onClick={() => window.location.href = '/contact?type=intro'}
+                  size="lg"
+                  className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all group"
+                >
+                  Book 20-min Intro
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button
+                  onClick={() => window.location.href = '/partnerships'}
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-white text-white bg-transparent hover:bg-white/10 px-8 py-6 text-lg rounded-full"
+                >
+                  Partner With Us
+                </Button>
+              </div>
+            </div>
           </div>
-        </div>
 
-        {/* Subheading */}
-        <Card className="border border-gray-200 bg-white/80 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="text-xl md:text-2xl text-gray-900">
-              Many services want to engage LGBTQIA+ communities better — but face structural and trust-based barriers that digital tools often fail to address.
-            </CardTitle>
-            <CardDescription className="text-gray-600">
-              PRIDalLY is designed to complement, not replace, your existing pathways.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-
-        {/* The Challenge Services Face */}
-        <section className="mt-10">
-          <h2 className="text-2xl font-semibold text-gray-900">The Challenge Services Face</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            <Card className="border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-gray-700" />
-                  Access
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-gray-700 space-y-2">
-                <p>Limited time per appointment</p>
-                <p>Long waiting lists</p>
-                <p>Gaps between clinical touchpoints</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-gray-700" />
-                  Trust
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-gray-700 space-y-2">
-                <p>Past experiences of stigma or misunderstanding</p>
-                <p>Fear of disclosure</p>
-                <p>Low engagement with traditional systems</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Activity className="h-5 w-5 text-gray-700" />
-                  Disengagement
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-gray-700 space-y-2">
-                <p>Drop-off after referral</p>
-                <p>Missed follow-ups</p>
-                <p>Low uptake of psychoeducation resources</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-gray-700" />
-                  Fragmented Support
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-gray-700 space-y-2">
-                <p>Physical and mental health treated separately</p>
-                <p>Education, reflection, and support living outside services</p>
-                <p>Little visibility of patient experience between visits</p>
-              </CardContent>
-            </Card>
+          {/* Wave divider */}
+          <div className="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+            </svg>
           </div>
         </section>
 
-        {/* What PRIDalLY Adds */}
-        <section className="mt-12">
-          <h2 className="text-2xl font-semibold text-gray-900">What PRIDalLY Adds</h2>
-          <div className="grid md:grid-cols-2 gap-6 mt-6">
-            <Card className="border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Heart className="h-5 w-5 text-pink-600" />
-                  A Digital Companion — not a replacement
-                </CardTitle>
-                <CardDescription className="text-gray-600">
-                  PRIDalLY acts as a between-appointments support layer.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-sm text-gray-700 space-y-2">
-                <p>Encourages reflection and self-awareness</p>
-                <p>Reinforces education shared by services</p>
-                <p>Supports continuity without increasing clinician workload</p>
-              </CardContent>
-            </Card>
+        {/* The Problem Section */}
+        <section className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">The Problem</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Services face structural and trust-based barriers that digital tools often fail to address.
+              </p>
+            </div>
 
-            <Card className="border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <BookIcon />
-                  Education that reduces anxiety and misinformation
-                </CardTitle>
-                <CardDescription className="text-gray-600">
-                  Services can signpost users to trusted, inclusive health content that:
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-sm text-gray-700 space-y-2">
-                <p>Reduces fear before appointments</p>
-                <p>Improves health literacy</p>
-                <p>Supports informed conversations with clinicians</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageCircle className="h-5 w-5 text-blue-600" />
-                  Safe Signposting & Support Awareness
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-gray-700 space-y-2">
-                <p>Understand when to seek help</p>
-                <p>Prepare for appointments</p>
-                <p>Reflect on questions or concerns beforehand</p>
-                <p className="text-gray-500">We do not provide crisis care or diagnosis.</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-gray-200">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <ChartIcon />
-                  Engagement Insights (aggregated, ethical)
-                </CardTitle>
-                <CardDescription className="text-gray-600">
-                  For partner services (subject to agreement and consent):
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-sm text-gray-700 space-y-2">
-                <p>High-level engagement trends</p>
-                <p>Common themes or barriers</p>
-                <p>Non-identifiable insights to inform service design</p>
-                <p className="text-gray-500">No surveillance. No individual tracking.</p>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              {problems.map((problem, index) => (
+                <div 
+                  key={index}
+                  className={`${problem.bg} rounded-2xl p-6 md:p-8 text-center hover:shadow-lg transition-all hover:-translate-y-1`}
+                >
+                  <div className={`${problem.color} flex justify-center mb-4`}>
+                    {problem.icon}
+                  </div>
+                  <h3 className="font-semibold text-gray-900 text-lg">{problem.title}</h3>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Safeguarding + Governance */}
-        <section className="mt-12">
-          <Card className="border-gray-200 bg-gray-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-gray-700" />
-                Safeguarding & Governance
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700 space-y-2">
-              <p>Clear boundaries: no crisis care, diagnosis, or real-time monitoring.</p>
-              <p>Ethical data practices: aggregated insights with consent; privacy by design.</p>
-              <p>Clinical alignment: complements existing pathways and standards.</p>
-              <div className="mt-4 flex flex-wrap gap-3">
+        {/* What PRIDaLLY Adds Section */}
+        <section className="py-20 md:py-28 bg-gradient-to-br from-gray-50 to-blue-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">What PRIDaLLY Adds</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                A between-appointments support layer that complements your existing pathways.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+              {features.map((feature, index) => (
+                <Card 
+                  key={index}
+                  className={`group relative overflow-hidden bg-gradient-to-br ${feature.bgGradient} ${feature.borderColor} border-2 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
+                >
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.gradient} opacity-10 rounded-full blur-2xl group-hover:opacity-20 transition-opacity`} />
+                  
+                  <CardHeader className="pb-2">
+                    <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                      {feature.icon}
+                    </div>
+                    <CardTitle className={`text-2xl ${feature.titleColor}`}>{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 text-lg">
+                      {feature.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Safeguarding Section */}
+        <section className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-teal-500 rounded-2xl mb-6 shadow-lg">
+                  <Shield className="h-8 w-8 text-white" />
+                </div>
+                <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Safeguarding, Built-In</h2>
+                <p className="text-xl text-gray-600">
+                  Safety and ethics are foundational — not afterthoughts.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                {safeguardingFeatures.map((item, index) => (
+                  <div 
+                    key={index}
+                    className="flex items-center gap-4 bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                  >
+                    <div className={`${item.color} flex-shrink-0`}>
+                      {item.icon}
+                    </div>
+                    <span className="text-gray-700 text-lg font-medium">{item.text}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-4 justify-center">
                 <Button
                   onClick={() => window.location.href = '/safeguarding'}
-                  className="bg-white border border-gray-300 text-gray-900 hover:bg-gray-100 rounded-full px-5 py-2"
+                  variant="outline"
+                  className="border-gray-300 text-gray-700 hover:bg-gray-50 rounded-full px-6"
                 >
-                  View Safeguarding & Clinical Standards
+                  View Safeguarding Standards
                 </Button>
                 <Button
                   onClick={() => window.location.href = '/governance'}
-                  className="bg-white border border-gray-300 text-gray-900 hover:bg-gray-100 rounded-full px-5 py-2"
+                  variant="outline"
+                  className="border-gray-300 text-gray-700 hover:bg-gray-50 rounded-full px-6"
                 >
                   Governance Overview
                 </Button>
               </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Problem overview (summary banner) */}
-        <section className="mt-12">
-          <Card className="border-gray-200 bg-gradient-to-r from-gray-50 to-white">
-            <CardHeader>
-              <CardTitle>Problem</CardTitle>
-              <CardDescription className="text-gray-600">
-                Access • Trust • Disengagement • Fragmented Support
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="text-sm text-gray-700">
-              PRIDalLY complements service pathways with education, signposting, and ethical engagement insights.
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Bottom CTA */}
-        <section className="mt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900">Book a 20-min intro</h3>
-            <p className="mt-2 text-gray-600">
-              Learn how PRIDalLY can complement your service pathways and support LGBTQIA+ communities.
-            </p>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Button
-              onClick={() => window.location.href = '/contact?type=intro'}
-              className="bg-black text-white hover:bg-gray-800 rounded-full px-5 py-2"
-            >
-              Book a 20-min Intro
-            </Button>
-            <Button
-              onClick={() => window.location.href = '/partnerships'}
-              className="bg-white border border-gray-300 text-gray-900 hover:bg-gray-50 rounded-full px-5 py-2"
-            >
-              Explore Partnership Options
-            </Button>
+        </section>
+
+        {/* Bottom CTA Section */}
+        <section className="py-20 md:py-28 relative overflow-hidden">
+          {/* Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-teal-500 to-green-400" />
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-10 right-20 w-64 h-64 bg-white/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 left-10 w-80 h-80 bg-blue-300/20 rounded-full blur-3xl" />
+          </div>
+
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white/90 text-sm mb-6">
+                <Sparkles className="h-4 w-4" />
+                Ready to learn more?
+              </div>
+              
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+                Book a 20-Min Intro
+              </h2>
+              <p className="text-xl text-white/90 mb-10 max-w-xl mx-auto">
+                Learn how PRIDaLLY can complement your service pathways and support LGBTQIA+ communities.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button
+                  onClick={() => window.location.href = '/contact?type=intro'}
+                  size="lg"
+                  className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all group"
+                >
+                  👉 Book a 20-Min Intro
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button
+                  onClick={() => window.location.href = '/partnerships'}
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-white text-white bg-transparent hover:bg-white/10 px-8 py-6 text-lg rounded-full"
+                >
+                  Partner With Us
+                </Button>
+              </div>
+            </div>
           </div>
         </section>
       </main>
-    
+
+      {/* Footer */}
       <footer className="py-12 bg-gray-900 text-white">
-        <div className=" mx-auto px-4">
-            <div className="text-center text-gray-400 text-sm">
-              © {year}  PRIDaLLY. All rights reserved.
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-gray-400 text-sm">
+              © {year} PRIDaLLY. All rights reserved.
+            </div>
+            <div className="flex items-center gap-6 text-sm text-gray-400">
+              <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>
+              <a href="/contact" className="hover:text-white transition-colors">Contact</a>
             </div>
           </div>
+        </div>
       </footer>
     </div>
   );
