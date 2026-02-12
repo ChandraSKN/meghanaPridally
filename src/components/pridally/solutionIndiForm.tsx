@@ -12,6 +12,7 @@ interface SolutionIndiPageProps {
 const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,6 +21,10 @@ const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => 
 
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+
+  const toggleCard = (cardIndex: number) => {
+    setExpandedCard(expandedCard === cardIndex ? null : cardIndex);
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -33,36 +38,36 @@ const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => 
       title: 'Health360',
       description: 'Track patterns, not labels.',
       gradient: 'from-purple-500 to-pink-500',
-      bgGradient: 'from-purple-50 to-pink-50',
-      borderColor: 'border-purple-200',
-      titleColor: 'text-purple-700'
+      bgGradient: 'from-fuchsia-500 to-purple-600',
+      label: 'WELLNESS',
+      labelColor: 'text-purple-600/80'
     },
     {
-      icon: <Book className="h-7 w-7 text-blue-600" />,
+      icon: <Book className="h-7 w-7 text-white-600" />,
       title: 'Queerpedia',
       description: 'Health info that actually sees you.',
       gradient: 'from-blue-500 to-teal-500',
-      bgGradient: 'from-blue-50 to-teal-50',
-      borderColor: 'border-blue-200',
-      titleColor: 'text-blue-700'
+      bgGradient: 'from-sky-500 to-indigo-500',
+      label: 'KNOWLEDGE',
+      labelColor: 'text-sky-700/80'
     },
     {
-      icon: <Pill className="h-7 w-7 text-green-600" />,
+      icon: <Pill className="h-7 w-7 text-white-600" />,
       title: 'Queer-Affirmative Drug Bank',
       description: 'Medication clarity, minus bias.',
       gradient: 'from-green-500 to-emerald-500',
-      bgGradient: 'from-green-50 to-emerald-50',
-      borderColor: 'border-green-200',
-      titleColor: 'text-green-700'
+      bgGradient: 'from-emerald-500 to-teal-500',
+      label: 'MEDICATION',
+      labelColor: 'text-emerald-700/80'
     },
     {
-      icon: <MessageCircle className="h-7 w-7 text-orange-600" />,
+      icon: <MessageCircle className="h-7 w-7 text-white-600" />,
       title: 'PRISM / Chat Corner',
       description: 'Moderated. Trauma-informed. Human.',
       gradient: 'from-orange-500 to-red-500',
-      bgGradient: 'from-orange-50 to-red-50',
-      borderColor: 'border-orange-200',
-      titleColor: 'text-orange-700'
+      bgGradient: 'from-rose-500 to-orange-500',
+      label: 'COMMUNITY',
+      labelColor: 'text-rose-700/80'
     }
   ];
 
@@ -153,8 +158,8 @@ const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => 
                 </button>
 
                 <button 
-                    onClick={onGetStarted}
-                    className="bg-white/20 backdrop-blur-sm text-black px-4 py-2 rounded-full hover:bg-white/30 transition-colors"
+                    onClick={() => window.location.href = '/auth'}
+                    className="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-orange-400 transition-colors shadow-md hover:shadow-lg"
                 >
                     Join Pridally
                 </button>
@@ -183,7 +188,7 @@ const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => 
                     </a>
                     
                     <button 
-                    onClick={onGetStarted}
+                    onClick={() => window.location.href = '/auth'}
                     className="block w-full text-left text-white/90 hover:text-white"
                     >
                     Join Pridally
@@ -261,10 +266,10 @@ const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => 
                 Now in Early Access
               </div>
               
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-                Your health.<br />
-                <span className="text-white/90">Your identity.</span><br />
-                <span className="text-white/80">Your pace.</span>
+              <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-6 leading-tight">
+                Your health<br />
+                <span className="text-white/90">Your identity</span><br />
+                <span className="text-white/80">Your pace</span>
               </h1>
               
               <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
@@ -302,36 +307,49 @@ const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => 
           </div>
         </section>
 
-        {/* What You Can Do Section */}
+        {/* What You Can Do Section - Updated to match LandingPage style */}
         <section className="py-20 md:py-28 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Subtle background accents */}
+            <div className="pointer-events-none absolute inset-0 -z-10">
+              <div className="absolute -top-20 -right-10 w-72 h-72 bg-pink-300/30 blur-3xl rounded-full" />
+              <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-purple-300/30 blur-3xl rounded-full" />
+            </div>
+
             <div className="text-center mb-16">
+            
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">What You Can Do</h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Tools designed with you in mind — not around you.
+                Tools designed <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 font-semibold">with you</span> in mind - not around you.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
               {features.map((feature, index) => (
-                <Card 
-                  key={index}
-                  className={`group relative overflow-hidden bg-gradient-to-br ${feature.bgGradient} ${feature.borderColor} border-2 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
-                >
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.gradient} opacity-10 rounded-full blur-2xl group-hover:opacity-20 transition-opacity`} />
-                  
-                  <CardHeader className="pb-2">
-                    <div className={`w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
-                      {feature.icon}
+                <article key={index} className="min-w-[260px] snap-center">
+                  <div 
+                    onClick={() => toggleCard(index + 1)}
+                    className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col cursor-pointer hover:-translate-y-1"
+                  >
+                    <div className="inline-flex items-center gap-2 mb-4">
+                      <span className={`inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br ${feature.bgGradient} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                        {feature.icon}
+                      </span>
+                      <span className={`text-xs font-semibold uppercase tracking-[0.2em] ${feature.labelColor}`}>
+                        {feature.label}
+                      </span>
                     </div>
-                    <CardTitle className={`text-2xl ${feature.titleColor}`}>{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 text-lg">
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className={`text-sm md:text-base text-gray-600 flex-1 transition-all duration-300 overflow-hidden ${expandedCard === index + 1 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                       {feature.description}
                     </p>
-                  </CardContent>
-                </Card>
+                    <div className={`text-xs text-gray-400 mt-2 transition-opacity duration-300 ${expandedCard === index + 1 ? 'opacity-0' : 'opacity-100'}`}>
+                      Click to learn more
+                    </div>
+                  </div>
+                </article>
               ))}
             </div>
           </div>
@@ -355,9 +373,9 @@ const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => 
                 {privacyFeatures.map((item, index) => (
                   <div 
                     key={index}
-                    className="flex items-center gap-4 bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                    className="group flex items-center gap-4 bg-white/80 backdrop-blur-xl p-6 rounded-2xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 border border-white/40 hover:-translate-y-1"
                   >
-                    <div className={`${item.color} flex-shrink-0`}>
+                    <div className={`${item.color} flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
                       {item.icon}
                     </div>
                     <span className="text-gray-700 text-lg font-medium">{item.text}</span>

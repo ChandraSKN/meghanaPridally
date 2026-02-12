@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import SolutionNHSPage from '@/components/pridally/SolutionNHSForm'
+import SolutionNHSPage from '@/components/pridally/solutionNHSForm'
 
 export default function PridAllyPage() {
     const router = useRouter()

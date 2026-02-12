@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, Shield, Menu, X, ChevronDown, ArrowRight, Sparkles, CheckCircle2, Users, GraduationCap, FileCheck, Lock, Bot, AlertTriangle, XCircle } from 'lucide-react';
 
 interface SolutionUniPageProps {
@@ -10,9 +9,14 @@ interface SolutionUniPageProps {
 const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+
+  const toggleCard = (cardIndex: number) => {
+    setExpandedCard(expandedCard === cardIndex ? null : cardIndex);
   };
 
   const year = new Date().getFullYear();
@@ -26,40 +30,36 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
 
   const enableFeatures = [
     {
-      icon: <GraduationCap className="h-7 w-7 text-indigo-600" />,
+      icon: <GraduationCap className="h-7 w-7" />,
       title: 'MSc / PhD Projects',
-      description: 'Support for dissertation-level research with ethical infrastructure',
-      gradient: 'from-indigo-500 to-purple-500',
-      bgGradient: 'from-indigo-50 to-purple-50',
-      borderColor: 'border-indigo-200',
-      titleColor: 'text-indigo-700'
+      description: 'Support for dissertation-level research with ethical infrastructure. Access to community insights while maintaining participant dignity and privacy throughout the research process.',
+      bgGradient: 'from-indigo-500 to-purple-600',
+      label: 'ACADEMIC',
+      labelColor: 'text-indigo-600/80'
     },
     {
-      icon: <Users className="h-7 w-7 text-teal-600" />,
+      icon: <Users className="h-7 w-7" />,
       title: 'Live Briefs & Placements',
-      description: 'Real-world learning opportunities for students',
-      gradient: 'from-teal-500 to-cyan-500',
-      bgGradient: 'from-teal-50 to-cyan-50',
-      borderColor: 'border-teal-200',
-      titleColor: 'text-teal-700'
+      description: 'Real-world learning opportunities for students. Engage with meaningful projects that create positive impact for LGBTQIA+ communities while building practical skills.',
+      bgGradient: 'from-teal-500 to-cyan-500',
+      label: 'EXPERIENTIAL',
+      labelColor: 'text-teal-600/80'
     },
     {
-      icon: <FileCheck className="h-7 w-7 text-emerald-600" />,
+      icon: <FileCheck className="h-7 w-7" />,
       title: 'Ethical Digital Studies',
-      description: 'Research frameworks that respect participant dignity',
-      gradient: 'from-emerald-500 to-green-500',
-      bgGradient: 'from-emerald-50 to-green-50',
-      borderColor: 'border-emerald-200',
-      titleColor: 'text-emerald-700'
+      description: 'Research frameworks that respect participant dignity. Built-in consent mechanisms and transparent data handling practices that meet the highest ethical standards.',
+      bgGradient: 'from-emerald-500 to-green-500',
+      label: 'METHODOLOGY',
+      labelColor: 'text-emerald-600/80'
     },
     {
-      icon: <Heart className="h-7 w-7 text-pink-600" />,
+      icon: <Heart className="h-7 w-7" />,
       title: 'Community-Grounded Impact',
-      description: 'Research that gives back to the communities it studies',
-      gradient: 'from-pink-500 to-rose-500',
-      bgGradient: 'from-pink-50 to-rose-50',
-      borderColor: 'border-pink-200',
-      titleColor: 'text-pink-700'
+      description: 'Research that gives back to the communities it studies. Co-designed approaches that centre lived experience and create lasting benefit for participants.',
+      bgGradient: 'from-pink-500 to-rose-500',
+      label: 'IMPACT',
+      labelColor: 'text-pink-600/80'
     }
   ];
 
@@ -67,7 +67,7 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
     { icon: <Lock className="h-6 w-6" />, text: 'Privacy by design', color: 'text-blue-500' },
     { icon: <Users className="h-6 w-6" />, text: 'Human + AI moderation', color: 'text-purple-500' },
     { icon: <AlertTriangle className="h-6 w-6" />, text: 'Clear escalation', color: 'text-orange-500' },
-    { icon: <Bot className="h-6 w-6" />, text: 'Ethical AI — with a soul', color: 'text-teal-500' }
+    { icon: <Bot className="h-6 w-6" />, text: 'Ethical AI - with a soul', color: 'text-teal-500' }
   ];
 
   return (
@@ -150,21 +150,19 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
                 </button>
 
                 <button 
-                    onClick={onGetStarted}
-                    className="bg-white/20 backdrop-blur-sm text-black px-4 py-2 rounded-full hover:bg-white/30 transition-colors"
+                    onClick={() => window.location.href = '/auth'}
+                    className="bg-purple-500 text-white px-6 py-2 rounded-full hover:bg-pink-400 transition-colors shadow-md hover:shadow-lg"
                 >
                     Join Pridally
                 </button>
 
                 </div>
 
-                
-
                 {/* Mobile menu button */}
                 <div className="md:hidden">
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="text-white hover:text-white/80"
+                    className="text-gray-800 hover:text-gray-600"
                 >
                     {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 </button>
@@ -173,15 +171,15 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
 
             {/* Mobile Navigation */}
             {isMenuOpen && (
-                <div className="md:hidden py-4 border-t border-white/20">
+                <div className="md:hidden py-4 border-t border-gray-200 bg-white">
                 <div className="space-y-4">
-                    <a href="#home" className="block text-white/90 hover:text-white">
+                    <a href="/" className="block text-gray-700 hover:text-gray-900">
                     Home
                     </a>
                     
                     <button 
-                    onClick={onGetStarted}
-                    className="block w-full text-left text-white/90 hover:text-white"
+                    onClick={() => window.location.href = '/auth'}
+                    className="block w-full text-left bg-purple-500 text-white px-4 py-2 rounded-full hover:bg-pink-400 transition-colors"
                     >
                     Join Pridally
                     </button>
@@ -190,20 +188,20 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
                     <div>
                     <button
                         onClick={() => toggleDropdown('mobile-solutions')}
-                        className="flex items-center justify-between w-full text-white/90 hover:text-white"
+                        className="flex items-center justify-between w-full text-gray-700 hover:text-gray-900"
                     >
                         Solutions
                         <ChevronDown className="h-4 w-4" />
                     </button>
                     {openDropdown === 'mobile-solutions' && (
                         <div className="mt-2 ml-4 space-y-2">
-                        <a href="/solution_individual" className="block text-white/70 hover:text-white">
+                        <a href="/solution_individual" className="block text-gray-600 hover:text-gray-900">
                             For Individuals
                         </a>
-                        <a href="/solution_nhs" className="block text-white/70 hover:text-white">
+                        <a href="/solution_nhs" className="block text-gray-600 hover:text-gray-900">
                             For NHS/Services
                         </a>
-                        <a href="/solution_uni" className="block text-white/70 hover:text-white">
+                        <a href="/solution_uni" className="block text-gray-600 hover:text-gray-900">
                             For Universities/Research
                         </a>
                         </div>
@@ -214,17 +212,17 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
                     <div>
                     <button
                         onClick={() => toggleDropdown('mobile-about')}
-                        className="flex items-center justify-between w-full text-white/90 hover:text-white"
+                        className="flex items-center justify-between w-full text-gray-700 hover:text-gray-900"
                     >
                         About Us
                         <ChevronDown className="h-4 w-4" />
                     </button>
                     {openDropdown === 'mobile-about' && (
                         <div className="mt-2 ml-4 space-y-2">
-                        <a href="/why_pridally" className="block text-white/70 hover:text-white">
+                        <a href="/why_pridally" className="block text-gray-600 hover:text-gray-900">
                             Why Pridally
                         </a>
-                        <a href="/safeguarding" className="block text-white/70 hover:text-white">
+                        <a href="/safeguarding" className="block text-gray-600 hover:text-gray-900">
                             Safeguarding & Clinical Standards
                         </a>
                         </div>
@@ -235,10 +233,6 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
             )}
             </div>
         </nav>
-
-
-      
-      
 
       {/* Main Content */}
       <main className="flex-grow">
@@ -260,9 +254,9 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
                 For Universities & Research
               </div>
               
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-                Inclusive research.<br />
-                <span className="text-white/90">Without extraction.</span>
+              <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-6 leading-tight">
+                Inclusive research<br />
+                <span className="text-white/90">Without extraction</span>
               </h1>
               
               <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
@@ -304,7 +298,7 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Why PRIDaLLY</h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Built for academic rigour and community trust.
+                Built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-400 font-semibold">academic rigour</span> and community trust.
               </p>
             </div>
 
@@ -312,7 +306,7 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
               {whyPridallyFeatures.map((feature, index) => (
                 <div 
                   key={index}
-                  className={`${feature.bg} rounded-2xl p-6 md:p-8 text-center hover:shadow-lg transition-all hover:-translate-y-1`}
+                  className={`${feature.bg} rounded-2xl p-6 md:p-8 text-center hover:shadow-lg transition-all hover:-translate-y-1 border border-white/40`}
                 >
                   <div className={`${feature.color} flex justify-center mb-4`}>
                     {feature.icon}
@@ -324,36 +318,51 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
           </div>
         </section>
 
-        {/* What We Enable Section */}
-        <section className="py-20 md:py-28 bg-gradient-to-br from-gray-50 to-indigo-50">
+        {/* What We Enable Section - Updated to match LandingPage style */}
+        <section className="py-20 md:py-28 bg-gradient-to-br from-gray-50 to-indigo-50 relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Subtle background accents */}
+            <div className="pointer-events-none absolute inset-0 -z-10">
+              <div className="absolute -top-20 -right-10 w-72 h-72 bg-indigo-300/30 blur-3xl rounded-full" />
+              <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-purple-300/30 blur-3xl rounded-full" />
+            </div>
+
             <div className="text-center mb-16">
+              <p className="uppercase tracking-[0.25em] text-xs font-semibold text-indigo-600/80 mb-3">
+                RESEARCH · LEARNING · IMPACT
+              </p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">What We Enable</h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Research infrastructure that respects participants and delivers impact.
+                Research infrastructure that <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-400 font-semibold">respects participants</span> and delivers impact.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
               {enableFeatures.map((feature, index) => (
-                <Card 
-                  key={index}
-                  className={`group relative overflow-hidden bg-gradient-to-br ${feature.bgGradient} ${feature.borderColor} border-2 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
-                >
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.gradient} opacity-10 rounded-full blur-2xl group-hover:opacity-20 transition-opacity`} />
-                  
-                  <CardHeader className="pb-2">
-                    <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                      {feature.icon}
+                <article key={index} className="min-w-[260px] snap-center">
+                  <div 
+                    onClick={() => toggleCard(index + 1)}
+                    className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col cursor-pointer hover:-translate-y-1"
+                  >
+                    <div className="inline-flex items-center gap-2 mb-4">
+                      <span className={`inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br ${feature.bgGradient} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                        {feature.icon}
+                      </span>
+                      <span className={`text-xs font-semibold uppercase tracking-[0.2em] ${feature.labelColor}`}>
+                        {feature.label}
+                      </span>
                     </div>
-                    <CardTitle className={`text-2xl ${feature.titleColor}`}>{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 text-lg">
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className={`text-sm md:text-base text-gray-600 flex-1 transition-all duration-300 overflow-hidden ${expandedCard === index + 1 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                       {feature.description}
                     </p>
-                  </CardContent>
-                </Card>
+                    <div className={`text-xs text-gray-400 mt-2 transition-opacity duration-300 ${expandedCard === index + 1 ? 'opacity-0' : 'opacity-100'}`}>
+                      Click to learn more
+                    </div>
+                  </div>
+                </article>
               ))}
             </div>
           </div>
@@ -362,14 +371,21 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
         {/* Not This / This Section */}
         <section className="py-20 md:py-28 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <p className="uppercase tracking-[0.25em] text-xs font-semibold text-gray-600/80 mb-3">
+                OUR APPROACH
+              </p>
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Research Done Right</h2>
+            </div>
+
             <div className="grid md:grid-cols-2 gap-8">
               {/* Not This */}
-              <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-3xl p-8 border-2 border-red-100">
+              <div className="group bg-gradient-to-br from-red-50 to-orange-50 rounded-3xl p-8 border-2 border-red-100 hover:shadow-lg transition-all hover:-translate-y-1">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <XCircle className="h-6 w-6 text-red-500" />
                   </div>
-                  <h3 className="text-2xl font-bold text-red-700">Not This ❌</h3>
+                  <h3 className="text-2xl font-bold text-red-700">Not This</h3>
                 </div>
                 <ul className="space-y-4">
                   <li className="flex items-center gap-3 text-gray-700">
@@ -388,12 +404,12 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
               </div>
 
               {/* This */}
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-8 border-2 border-green-100">
+              <div className="group bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-8 border-2 border-green-100 hover:shadow-lg transition-all hover:-translate-y-1">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <CheckCircle2 className="h-6 w-6 text-green-500" />
                   </div>
-                  <h3 className="text-2xl font-bold text-green-700">This ✅</h3>
+                  <h3 className="text-2xl font-bold text-green-700">This</h3>
                 </div>
                 <p className="text-xl text-gray-700 font-medium">
                   A research-enabling ecosystem.
@@ -406,10 +422,8 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
           </div>
         </section>
 
-        
-
         {/* Safety Section */}
-        <section className="py-20 md:py-28 bg-white">
+        <section className="py-20 md:py-28 bg-gradient-to-br from-gray-50 to-indigo-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
@@ -426,9 +440,9 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
                 {safetyFeatures.map((item, index) => (
                   <div 
                     key={index}
-                    className="flex items-center gap-4 bg-gradient-to-br from-gray-50 to-indigo-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                    className="group flex items-center gap-4 bg-white/80 backdrop-blur-xl p-6 rounded-2xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 border border-white/40 hover:-translate-y-1"
                   >
-                    <div className={`${item.color} flex-shrink-0`}>
+                    <div className={`${item.color} flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
                       {item.icon}
                     </div>
                     <span className="text-gray-700 text-lg font-medium">{item.text}</span>
@@ -468,7 +482,7 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
                   size="lg"
                   className="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all group"
                 >
-                  Partner with PRIDaLLY
+                  👉 Partner with PRIDaLLY
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <Button

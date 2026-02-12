@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart, Brain, MessageCircle, Shield, Menu, X, ChevronDown, ArrowRight, Sparkles, CheckCircle2, Users, Lock, Zap, BarChart3, BookOpen, Activity, Eye, Target, Compass } from 'lucide-react';
+import { Heart, Shield, Menu, X, ChevronDown, ArrowRight, Sparkles, Users, BarChart3, BookOpen, Activity, Compass } from 'lucide-react';
 
 interface WhyPridallyPageProps {
   onGetStarted: () => void;
@@ -10,9 +9,14 @@ interface WhyPridallyPageProps {
 const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+
+  const toggleCard = (cardIndex: number) => {
+    setExpandedCard(expandedCard === cardIndex ? null : cardIndex);
   };
 
   const year = new Date().getFullYear();
@@ -21,34 +25,34 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
     { 
       icon: <Heart className="h-7 w-7" />, 
       title: 'Identity-Aware Care', 
-      description: 'No explaining. No justifying. Just support.', 
-      color: 'text-pink-500', 
-      bg: 'bg-pink-50',
-      gradient: 'from-pink-500 to-rose-500'
+      description: 'No explaining. No justifying. Just support that understands your lived experience and meets you where you are.', 
+      bgGradient: 'from-pink-500 to-rose-500',
+      label: 'AFFIRMING',
+      labelColor: 'text-pink-600/80'
     },
     { 
       icon: <BookOpen className="h-7 w-7" />, 
       title: 'Evidence, Not Opinions', 
-      description: 'Queerpedia = science, minus the shame.', 
-      color: 'text-purple-500', 
-      bg: 'bg-purple-50',
-      gradient: 'from-purple-500 to-indigo-500'
+      description: 'Queerpedia = science, minus the shame. Evidence-based information written for LGBTQIA+ bodies and experiences.', 
+      bgGradient: 'from-purple-500 to-indigo-500',
+      label: 'KNOWLEDGE',
+      labelColor: 'text-purple-600/80'
     },
     { 
       icon: <Shield className="h-7 w-7" />, 
       title: 'Bias-Free Medication Info', 
-      description: 'Real guidance. Real bodies. Real lives.', 
-      color: 'text-blue-500', 
-      bg: 'bg-blue-50',
-      gradient: 'from-blue-500 to-cyan-500'
+      description: 'Real guidance. Real bodies. Real lives. Medication information that accounts for the diversity of LGBTQIA+ health needs.', 
+      bgGradient: 'from-blue-500 to-cyan-500',
+      label: 'GUIDANCE',
+      labelColor: 'text-blue-600/80'
     },
     { 
       icon: <Activity className="h-7 w-7" />, 
       title: 'Holistic Health', 
-      description: 'Mental. Physical. Sexual. Reproductive. Social.', 
-      color: 'text-green-500', 
-      bg: 'bg-green-50',
-      gradient: 'from-green-500 to-emerald-500'
+      description: 'Mental. Physical. Sexual. Reproductive. Social. Five dimensions of wellbeing, all interconnected and all supported.', 
+      bgGradient: 'from-green-500 to-emerald-500',
+      label: 'WELLBEING',
+      labelColor: 'text-green-600/80'
     }
   ];
 
@@ -63,31 +67,31 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
       title: 'Affirming', 
       description: "You're already enough.", 
       emoji: '💜',
-      color: 'from-purple-500 to-pink-500'
+      bgGradient: 'from-purple-500 to-pink-500'
     },
     { 
       title: 'Unfixed', 
       description: "We don't box journeys.", 
       emoji: '🦋',
-      color: 'from-pink-500 to-orange-500'
+      bgGradient: 'from-pink-500 to-orange-500'
     },
     { 
       title: 'Grounded', 
       description: 'Safe, steady, real care.', 
       emoji: '🌱',
-      color: 'from-green-500 to-teal-500'
+      bgGradient: 'from-green-500 to-teal-500'
     },
     { 
       title: 'Compassionate', 
       description: 'Warmth before judgement.', 
       emoji: '🤗',
-      color: 'from-orange-500 to-amber-500'
+      bgGradient: 'from-orange-500 to-amber-500'
     },
     { 
       title: 'Validated', 
       description: 'Evidence-led, always.', 
       emoji: '✅',
-      color: 'from-blue-500 to-indigo-500'
+      bgGradient: 'from-blue-500 to-indigo-500'
     }
   ];
 
@@ -179,21 +183,19 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
                 </button>
 
                 <button 
-                    onClick={onGetStarted}
-                    className="bg-white/20 backdrop-blur-sm text-black px-4 py-2 rounded-full hover:bg-white/30 transition-colors"
+                    onClick={() => window.location.href = '/auth'}
+                    className="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-orange-400 transition-colors shadow-md hover:shadow-lg"
                 >
                     Join Pridally
                 </button>
 
                 </div>
 
-                
-
                 {/* Mobile menu button */}
                 <div className="md:hidden">
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="text-white hover:text-white/80"
+                    className="text-gray-800 hover:text-gray-600"
                 >
                     {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 </button>
@@ -202,15 +204,15 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
 
             {/* Mobile Navigation */}
             {isMenuOpen && (
-                <div className="md:hidden py-4 border-t border-white/20">
+                <div className="md:hidden py-4 border-t border-gray-200 bg-white">
                 <div className="space-y-4">
-                    <a href="#home" className="block text-white/90 hover:text-white">
+                    <a href="/" className="block text-gray-700 hover:text-gray-900">
                     Home
                     </a>
                     
                     <button 
-                    onClick={onGetStarted}
-                    className="block w-full text-left text-white/90 hover:text-white"
+                    onClick={() => window.location.href = '/auth'}
+                    className="block w-full text-left bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-orange-400 transition-colors"
                     >
                     Join Pridally
                     </button>
@@ -219,20 +221,20 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
                     <div>
                     <button
                         onClick={() => toggleDropdown('mobile-solutions')}
-                        className="flex items-center justify-between w-full text-white/90 hover:text-white"
+                        className="flex items-center justify-between w-full text-gray-700 hover:text-gray-900"
                     >
                         Solutions
                         <ChevronDown className="h-4 w-4" />
                     </button>
                     {openDropdown === 'mobile-solutions' && (
                         <div className="mt-2 ml-4 space-y-2">
-                        <a href="/solution_individual" className="block text-white/70 hover:text-white">
+                        <a href="/solution_individual" className="block text-gray-600 hover:text-gray-900">
                             For Individuals
                         </a>
-                        <a href="/solution_nhs" className="block text-white/70 hover:text-white">
+                        <a href="/solution_nhs" className="block text-gray-600 hover:text-gray-900">
                             For NHS/Services
                         </a>
-                        <a href="/solution_uni" className="block text-white/70 hover:text-white">
+                        <a href="/solution_uni" className="block text-gray-600 hover:text-gray-900">
                             For Universities/Research
                         </a>
                         </div>
@@ -243,17 +245,17 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
                     <div>
                     <button
                         onClick={() => toggleDropdown('mobile-about')}
-                        className="flex items-center justify-between w-full text-white/90 hover:text-white"
+                        className="flex items-center justify-between w-full text-gray-700 hover:text-gray-900"
                     >
                         About Us
                         <ChevronDown className="h-4 w-4" />
                     </button>
                     {openDropdown === 'mobile-about' && (
                         <div className="mt-2 ml-4 space-y-2">
-                        <a href="/why_pridally" className="block text-white/70 hover:text-white">
+                        <a href="/why_pridally" className="block text-gray-600 hover:text-gray-900">
                             Why Pridally
                         </a>
-                        <a href="/safeguarding" className="block text-white/70 hover:text-white">
+                        <a href="/safeguarding" className="block text-gray-600 hover:text-gray-900">
                             Safeguarding & Clinical Standards
                         </a>
                         </div>
@@ -283,12 +285,12 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
             <div className="text-center">
               <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white/90 text-sm mb-6">
                 <Sparkles className="h-4 w-4" />
-                ✨ Why PRIDaLLY
+                 Why PRIDaLLY
               </div>
               
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-                Care that affirms —<br />
-                <span className="text-white/90">never fixes.</span>
+                Care that affirms <br />
+                <span className="text-white/90"> - never fixes</span>
               </h1>
               
               <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed">
@@ -325,36 +327,197 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
         </section>
 
         {/* Why PRIDaLLY Features Section */}
-        <section className="py-20 md:py-28 bg-white">
+        <section className="py-20 md:py-28 bg-gradient-to-br from-gray-50 to-purple-50 relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Subtle background accents */}
+            <div className="pointer-events-none absolute inset-0 -z-10">
+              <div className="absolute -top-20 -right-10 w-72 h-72 bg-purple-300/30 blur-3xl rounded-full" />
+              <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-pink-300/30 blur-3xl rounded-full" />
+            </div>
+
             <div className="text-center mb-16">
+              <p className="uppercase tracking-[0.25em] text-xs font-semibold text-purple-600/80 mb-3">
+                IDENTITY · EVIDENCE · CARE
+              </p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">✨ Why PRIDaLLY</h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Built different. Built better. Built for you.
+                Built <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 font-semibold">different</span>. Built better. Built for you.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
               {whyPridallyFeatures.map((feature, index) => (
-                <Card 
-                  key={index}
-                  className={`group relative overflow-hidden ${feature.bg} border-0 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
-                >
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.gradient} opacity-10 rounded-full blur-2xl group-hover:opacity-20 transition-opacity`} />
-                  
-                  <CardHeader className="pb-2">
-                    <div className={`w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform ${feature.color}`}>
-                      {feature.icon}
+                <article key={index} className="min-w-[260px] snap-center">
+                  <div 
+                    onClick={() => toggleCard(index + 1)}
+                    className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col cursor-pointer hover:-translate-y-1"
+                  >
+                    <div className="inline-flex items-center gap-2 mb-4">
+                      <span className={`inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br ${feature.bgGradient} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                        {feature.icon}
+                      </span>
+                      <span className={`text-xs font-semibold uppercase tracking-[0.2em] ${feature.labelColor}`}>
+                        {feature.label}
+                      </span>
                     </div>
-                    <CardTitle className="text-2xl text-gray-900">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 text-lg">
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className={`text-sm md:text-base text-gray-600 flex-1 transition-all duration-300 overflow-hidden ${expandedCard === index + 1 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                       {feature.description}
                     </p>
-                  </CardContent>
-                </Card>
+                    <div className={`text-xs text-gray-400 mt-2 transition-opacity duration-300 ${expandedCard === index + 1 ? 'opacity-0' : 'opacity-100'}`}>
+                      Click to learn more
+                    </div>
+                  </div>
+                </article>
               ))}
+            </div>
+          </div>
+        </section>
+
+
+        
+
+        {/* 5 Dimensions of Health Section */}
+        <section className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <p className="uppercase tracking-[0.25em] text-xs font-semibold text-green-600/80 mb-3">
+                HOLISTIC · INTEGRATED · COMPLETE
+              </p>
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">5 Dimensions of Health</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Because wellbeing isn't one-dimensional.
+              </p>
+            </div>
+
+            {/* Circular Layout */}
+            <div className="relative w-full max-w-lg mx-auto aspect-square">
+              {/* Center circle */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center shadow-2xl z-10">
+                <div className="text-center text-white">
+                  <span className="text-3xl md:text-4xl font-bold">5</span>
+                  <p className="text-xs md:text-sm font-medium">Dimensions</p>
+                </div>
+              </div>
+
+              {/* Connecting ring */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 md:w-80 md:h-80 rounded-full border-2 border-dashed border-gray-200" />
+
+              {/* Dimension items positioned in a circle */}
+              {healthDimensions.map((dimension, index) => {
+                // Calculate position around the circle (5 items = 72 degrees apart, starting from top)
+                const angle = (index * 72 - 90) * (Math.PI / 180);
+                const radius = 45; // percentage from center
+                const x = 50 + radius * Math.cos(angle);
+                const y = 50 + radius * Math.sin(angle);
+
+                return (
+                  <div
+                    key={index}
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 group"
+                    style={{
+                      left: `${x}%`,
+                      top: `${y}%`,
+                    }}
+                  >
+                    <div className="flex flex-col items-center">
+                      <div 
+                        className={`w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br ${dimension.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300 group-hover:shadow-xl cursor-pointer`}
+                      >
+                        <span className="text-2xl md:text-3xl">{dimension.emoji}</span>
+                      </div>
+                      <span className="mt-2 font-semibold text-gray-900 text-sm md:text-base whitespace-nowrap">
+                        {dimension.label}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Mobile fallback - horizontal scroll for very small screens */}
+            <div className="flex md:hidden flex-wrap justify-center gap-4 mt-8">
+              {healthDimensions.map((dimension, index) => (
+                <div 
+                  key={`mobile-${index}`}
+                  className="group bg-white/80 backdrop-blur-xl rounded-2xl px-4 py-3 shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 border border-white/40 hover:-translate-y-1 flex items-center gap-2"
+                >
+                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${dimension.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <span className="text-lg">{dimension.emoji}</span>
+                  </div>
+                  <span className="font-semibold text-gray-900 text-sm">{dimension.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Meet Lilo Section */}
+        <section className="py-20 md:py-28 bg-gradient-to-br from-gray-50 to-purple-50 relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Subtle background accents */}
+            <div className="pointer-events-none absolute inset-0 -z-10">
+              <div className="absolute -top-20 -right-10 w-72 h-72 bg-purple-300/30 blur-3xl rounded-full" />
+              <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-pink-300/30 blur-3xl rounded-full" />
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-12">
+                <p className="uppercase tracking-[0.25em] text-xs font-semibold text-purple-600/80 mb-3">
+                  COMPANION · GUIDE · FRIEND
+                </p>
+                <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">🐛 Meet Lilo</h2>
+                <p className="text-xl text-gray-600 italic">
+                  "Life's not a straight line - it's a Lila. And I'm here for the journey."
+                </p>
+              </div>
+
+              <div className="group bg-white/60 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/40 shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300">
+                <div className="flex flex-col md:flex-row items-center gap-8">
+                  {/* Lilo Visual */}
+                  <div className="flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
+                    <div className="w-45 h-40 md:w-48 md:h-58 flex items-center justify-center">
+                      <img 
+                        src="/lilo_image.png" 
+                        alt="Lilo - Your companion" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                          if (fallback) fallback.style.display = 'flex';
+                        }}
+                      />
+                      <div 
+                        className="w-full h-full bg-gradient-to-br from-purple-200 via-pink-200 to-orange-200 rounded-full items-center justify-center hidden"
+                      >
+                        <span className="text-6xl md:text-7xl">🐛</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Lilo Description */}
+                  <div className="flex-grow text-center md:text-left">
+                    <p className="text-xl text-gray-700 mb-6">
+                      Your soft-voiced, rainbow-hued caterpillar companion. They grow as you grow - messy, proud, and real.
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-6">
+                      <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Warm</span>
+                      <span className="px-4 py-2 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">Validating</span>
+                      <span className="px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">A little cheeky</span>
+                      <span className="px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Very human</span>
+                    </div>
+
+                    <blockquote className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border-l-4 border-purple-400 shadow-sm">
+                      <p className="text-gray-700 italic">
+                        "Lila = magic. And I'm here as a companion in your Lila."
+                      </p>
+                    </blockquote>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -380,9 +543,9 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
               {stats.map((stat, index) => (
                 <div 
                   key={index}
-                  className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 text-center border border-white/20 hover:bg-white/20 transition-all"
+                  className="group bg-white/10 backdrop-blur-lg rounded-3xl p-8 text-center border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-1"
                 >
-                  <div className="text-white/80 flex justify-center mb-4">
+                  <div className="text-white/80 flex justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     {stat.icon}
                   </div>
                   <div className="text-5xl md:text-6xl font-bold text-white mb-2">{stat.number}</div>
@@ -393,58 +556,36 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
           </div>
         </section>
 
-        {/* Meet Lilo Section */}
+        {/* Our Values Section */}
         <section className="py-20 md:py-28 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-2 bg-purple-100 px-4 py-2 rounded-full text-purple-700 text-sm mb-6">
-                  <span className="text-lg">🐛</span>
-                  Meet Your Companion
-                </div>
-                <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Meet Lilo</h2>
-                <p className="text-xl text-gray-600 italic">
-                  "Life's not a straight line — it's a Lila. And I'm here for the journey."
-                </p>
-              </div>
+            <div className="text-center mb-16">
+              <p className="uppercase tracking-[0.25em] text-xs font-semibold text-pink-600/80 mb-3">
+                PRINCIPLES · BELIEFS · FOUNDATION
+              </p>
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Our Values</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                The principles that guide everything we build.
+              </p>
+            </div>
 
-              <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 rounded-3xl p-8 md:p-12 border border-purple-100">
-                <div className="flex flex-col md:flex-row items-center gap-8">
-                  {/* Lilo Visual */}
-                  <div className="flex-shrink-0">
-                    <div className="w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-purple-200 via-pink-200 to-orange-200 rounded-full flex items-center justify-center shadow-lg">
-                      <span className="text-6xl md:text-7xl">🐛</span>
-                    </div>
-                    <div className="flex justify-center mt-4">
-                      <span className="text-2xl">→</span>
-                      <span className="text-4xl ml-2">🦋</span>
-                    </div>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+              {values.map((value, index) => (
+                <div 
+                  key={index}
+                  className="group bg-white/80 backdrop-blur-xl rounded-2xl p-6 text-center shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 border border-white/40 hover:-translate-y-1"
+                >
+                  <div className={`w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-br ${value.bgGradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <span className="text-2xl">{value.emoji}</span>
                   </div>
-
-                  {/* Lilo Description */}
-                  <div className="flex-grow text-center md:text-left">
-                    <p className="text-xl text-gray-700 mb-6">
-                      Your soft-voiced, rainbow-hued caterpillar companion. They grow as you grow — messy, proud, and real.
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-6">
-                      <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">Warm</span>
-                      <span className="px-4 py-2 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">Validating</span>
-                      <span className="px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">A little cheeky</span>
-                      <span className="px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Very human</span>
-                    </div>
-
-                    <blockquote className="bg-white rounded-2xl p-6 border-l-4 border-purple-400 shadow-sm">
-                      <p className="text-gray-700 italic">
-                        "Lila = magic. And I'm here as a companion in your Lila."
-                      </p>
-                    </blockquote>
-                  </div>
+                  <h3 className="font-semibold text-gray-900 text-lg mb-1">{value.title}</h3>
+                  <p className="text-gray-600 text-sm">{value.description}</p>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
+
 
         {/* CTA Section */}
         <section className="py-20 md:py-28 relative overflow-hidden">
@@ -475,7 +616,7 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
                   size="lg"
                   className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all group"
                 >
-                  Join Pridally
+                  👉 Join Pridally
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <Button

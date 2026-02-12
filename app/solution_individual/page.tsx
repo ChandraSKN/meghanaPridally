@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import SolutionIndiPage from '@/components/pridally/SolutionIndiForm';
+import SolutionIndiPage from '@/components/pridally/solutionIndiForm';
 
 export default function IndividualPage() {
     const router = useRouter()

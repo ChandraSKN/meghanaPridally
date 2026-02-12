@@ -10,9 +10,14 @@ interface SolutionNHSPageProps {
 const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+
+  const toggleCard = (cardIndex: number) => {
+    setExpandedCard(expandedCard === cardIndex ? null : cardIndex);
   };
 
   const year = new Date().getFullYear();
@@ -28,38 +33,46 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
     {
       icon: <span className="text-2xl">🧭</span>,
       title: 'Digital Companion',
-      description: 'Between visits',
+      description: 'Provides continuous support between clinical visits, helping patients stay engaged with their care journey and reducing anxiety during wait times.',
       gradient: 'from-blue-500 to-cyan-500',
-      bgGradient: 'from-blue-50 to-cyan-50',
+      bgGradient: 'from-sky-500 to-indigo-500',
       borderColor: 'border-blue-200',
-      titleColor: 'text-blue-700'
+      titleColor: 'text-blue-700',
+      label: 'SUPPORT',
+      labelColor: 'text-sky-700/80'
     },
     {
-      icon: <BookOpen className="h-7 w-7 text-green-600" />,
+      icon: <BookOpen className="h-7 w-7 text-white-600" />,
       title: 'Inclusive Education',
-      description: 'Less anxiety, better prep',
+      description: 'Evidence-based health information tailored for LGBTQIA+ communities, reducing anxiety and improving appointment preparation.',
       gradient: 'from-green-500 to-emerald-500',
-      bgGradient: 'from-green-50 to-emerald-50',
+      bgGradient: 'from-emerald-500 to-teal-500',
       borderColor: 'border-green-200',
-      titleColor: 'text-green-700'
+      titleColor: 'text-green-700',
+      label: 'EDUCATION',
+      labelColor: 'text-emerald-700/80'
     },
     {
-      icon: <Link2 className="h-7 w-7 text-purple-600" />,
+      icon: <Link2 className="h-7 w-7 text-white-600" />,
       title: 'Safe Signposting',
-      description: 'Know when to seek help',
+      description: 'Clear guidance on when and how to seek professional help, with direct links to appropriate services and crisis support.',
       gradient: 'from-purple-500 to-pink-500',
-      bgGradient: 'from-purple-50 to-pink-50',
+      bgGradient: 'from-fuchsia-500 to-purple-600',
       borderColor: 'border-purple-200',
-      titleColor: 'text-purple-700'
+      titleColor: 'text-purple-700',
+      label: 'NAVIGATION',
+      labelColor: 'text-purple-600/80'
     },
     {
-      icon: <BarChart3 className="h-7 w-7 text-orange-600" />,
+      icon: <BarChart3 className="h-7 w-7 text-white-600" />,
       title: 'Ethical Insights',
-      description: 'Trends, not tracking',
+      description: 'Aggregated, anonymised trends that help services understand community needs - without individual surveillance or tracking.',
       gradient: 'from-orange-500 to-red-500',
-      bgGradient: 'from-orange-50 to-red-50',
+      bgGradient: 'from-rose-500 to-orange-500',
       borderColor: 'border-orange-200',
-      titleColor: 'text-orange-700'
+      titleColor: 'text-orange-700',
+      label: 'ANALYTICS',
+      labelColor: 'text-rose-700/80'
     }
   ];
 
@@ -150,8 +163,8 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
                 </button>
 
                 <button 
-                    onClick={onGetStarted}
-                    className="bg-white/20 backdrop-blur-sm text-black px-4 py-2 rounded-full hover:bg-white/30 transition-colors"
+                    onClick={() => window.location.href = '/auth'}
+                    className="bg-teal-500 text-white px-6 py-2 rounded-full hover:bg-green-400 transition-colors shadow-md hover:shadow-lg"
                 >
                     Join Pridally
                 </button>
@@ -180,7 +193,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
                     </a>
                     
                     <button 
-                    onClick={onGetStarted}
+                    onClick={() => window.location.href = '/auth'}
                     className="block w-full text-left text-white/90 hover:text-white"
                     >
                     Join Pridally
@@ -257,16 +270,16 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
             <div className="text-center">
               <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white/90 text-sm mb-6">
                 <span className="text-lg">🏥</span>
-                For Services (NHS • Charities • Community)
+                For Services (NHS • Hospitals • Clinics)
               </div>
               
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+              <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white mb-6 leading-tight">
                 Support beyond<br />
-                <span className="text-white/90">appointments.</span>
+                <span className="text-white/90">appointments</span>
               </h1>
               
               <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
-                PRIDaLLY complements care — it doesn't replace it.
+                PRIDaLLY complements care - it doesn't replace it.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -302,6 +315,9 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
         <section className="py-20 md:py-28 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
+              <p className="uppercase tracking-[0.25em] text-xs font-semibold text-blue-600/80 mb-3">
+                CHALLENGES · BARRIERS · GAPS
+              </p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">The Problem</h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                 Services face structural and trust-based barriers that digital tools often fail to address.
@@ -312,7 +328,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
               {problems.map((problem, index) => (
                 <div 
                   key={index}
-                  className={`${problem.bg} rounded-2xl p-6 md:p-8 text-center hover:shadow-lg transition-all hover:-translate-y-1`}
+                  className={`${problem.bg} rounded-2xl p-6 md:p-8 text-center hover:shadow-lg transition-all hover:-translate-y-1 border border-white/40`}
                 >
                   <div className={`${problem.color} flex justify-center mb-4`}>
                     {problem.icon}
@@ -324,36 +340,51 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
           </div>
         </section>
 
-        {/* What PRIDaLLY Adds Section */}
-        <section className="py-20 md:py-28 bg-gradient-to-br from-gray-50 to-blue-50">
+        {/* What PRIDaLLY Adds Section - Updated to match LandingPage style */}
+        <section className="py-20 md:py-28 bg-gradient-to-br from-gray-50 to-blue-50 relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Subtle background accents */}
+            <div className="pointer-events-none absolute inset-0 -z-10">
+              <div className="absolute -top-20 -right-10 w-72 h-72 bg-blue-300/30 blur-3xl rounded-full" />
+              <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-teal-300/30 blur-3xl rounded-full" />
+            </div>
+
             <div className="text-center mb-16">
+              <p className="uppercase tracking-[0.25em] text-xs font-semibold text-teal-600/80 mb-3">
+                FEATURES · TOOLS · INTEGRATION
+              </p>
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">What PRIDaLLY Adds</h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                A between-appointments support layer that complements your existing pathways.
+                A between-appointments support layer that <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-teal-500 to-green-400 font-semibold">complements</span> your existing pathways.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
               {features.map((feature, index) => (
-                <Card 
-                  key={index}
-                  className={`group relative overflow-hidden bg-gradient-to-br ${feature.bgGradient} ${feature.borderColor} border-2 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}
-                >
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.gradient} opacity-10 rounded-full blur-2xl group-hover:opacity-20 transition-opacity`} />
-                  
-                  <CardHeader className="pb-2">
-                    <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
-                      {feature.icon}
+                <article key={index} className="min-w-[260px] snap-center">
+                  <div 
+                    onClick={() => toggleCard(index + 1)}
+                    className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col cursor-pointer hover:-translate-y-1"
+                  >
+                    <div className="inline-flex items-center gap-2 mb-4">
+                      <span className={`inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br ${feature.bgGradient} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                        {feature.icon}
+                      </span>
+                      <span className={`text-xs font-semibold uppercase tracking-[0.2em] ${feature.labelColor}`}>
+                        {feature.label}
+                      </span>
                     </div>
-                    <CardTitle className={`text-2xl ${feature.titleColor}`}>{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 text-lg">
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className={`text-sm md:text-base text-gray-600 flex-1 transition-all duration-300 overflow-hidden ${expandedCard === index + 1 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                       {feature.description}
                     </p>
-                  </CardContent>
-                </Card>
+                    <div className={`text-xs text-gray-400 mt-2 transition-opacity duration-300 ${expandedCard === index + 1 ? 'opacity-0' : 'opacity-100'}`}>
+                      Click to learn more
+                    </div>
+                  </div>
+                </article>
               ))}
             </div>
           </div>
@@ -369,7 +400,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
                 </div>
                 <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Safeguarding, Built-In</h2>
                 <p className="text-xl text-gray-600">
-                  Safety and ethics are foundational — not afterthoughts.
+                  Safety and ethics are foundational - not afterthoughts.
                 </p>
               </div>
 
@@ -377,9 +408,9 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
                 {safeguardingFeatures.map((item, index) => (
                   <div 
                     key={index}
-                    className="flex items-center gap-4 bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                    className="group flex items-center gap-4 bg-white/80 backdrop-blur-xl p-6 rounded-2xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 border border-white/40 hover:-translate-y-1"
                   >
-                    <div className={`${item.color} flex-shrink-0`}>
+                    <div className={`${item.color} flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
                       {item.icon}
                     </div>
                     <span className="text-gray-700 text-lg font-medium">{item.text}</span>

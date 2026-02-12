@@ -143,8 +143,8 @@ const PressPage: React.FC<PressPageProps> = ({ onGetStarted }) => {
                 </button>
 
                 <button 
-                    onClick={onGetStarted}
-                    className="bg-white/20 backdrop-blur-sm text-black px-4 py-2 rounded-full hover:bg-white/30 transition-colors"
+                    onClick={() => window.location.href = '/auth'}
+                    className="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-orange-400 transition-colors shadow-md hover:shadow-lg"
                 >
                     Join Pridally
                 </button>
@@ -173,7 +173,7 @@ const PressPage: React.FC<PressPageProps> = ({ onGetStarted }) => {
                     </a>
                     
                     <button 
-                    onClick={onGetStarted}
+                    onClick={() => window.location.href = '/auth'}
                     className="block w-full text-left text-white/90 hover:text-white"
                     >
                     Join Pridally
@@ -228,14 +228,6 @@ const PressPage: React.FC<PressPageProps> = ({ onGetStarted }) => {
             )}
             </div>
         </nav>
-
-
-      
-      
-
-      
-
-      
 
       {/* Main Content */}
       <main className="flex-grow">

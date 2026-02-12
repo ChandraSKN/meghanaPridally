@@ -10,8 +10,14 @@ interface LandingPageProps {
 const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
+  
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+
+   const toggleCard = (cardIndex: number) => {
+    setExpandedCard(expandedCard === cardIndex ? null : cardIndex);
   };
   
   const features = [
@@ -33,7 +39,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
     {
       icon: MessageCircle,
       title: 'AI Health Assistant',
-      description: 'Chat with our wellness bot for personalized tips and health guidance.'
+      description: 'Chat with our wellness bot/assistant for personalized tips and health guidance.'
     },
     {
       icon: Brain,
@@ -282,9 +288,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 </CardContent>
               </Card>
             ))}
-          </div>
+      </div>
 
-          {/* Why Pridally */}
+    {/* Why Pridally */}
       <section
             id="why-pridally"
             className="relative py-20"
@@ -298,20 +304,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             <div className="max-w-5xl mx-auto px-2 sm:px-4">
               <div className="flex flex-col text-center items-center gap-6 mb-10">
                 <div>
-                  <h2 className="text-4xl font-bold bg-clip-text font-bold text-purple-600/80 mb-3">
+                  <p className="uppercase tracking-[0.25em] text-xs font-semibold text-purple-600/80 mb-3">
+                    IDENTITY · EVIDENCE · CARE
+                  </p>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                     Why Pridally
                   </h2>
                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                    
                     <span className="block text-transparent bg-clip-text bg-gradient-to-r py-2 from-purple-600 via-pink-500 to-orange-400">
                       Designed for queer lives
                     </span>
                   </h2>
                 </div>
-                {/* <p className="max-w-md text-sm md:text-base text-gray-600">
-                  Pridally blends lived experience, clinical standards, and technology to create a
-                  stigma-free health companion for LGBTQIA+ communities.
-                </p> */}
               </div>
 
               {/* Horizontal scroll on mobile, grid on desktop */}
@@ -319,10 +323,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-2 md:gap-8 md:overflow-visible md:snap-none">
                   {/* Card 1 */}
                   <article className="min-w-[260px] max-w-sm md:max-w-none snap-center">
-                    <div className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col">
+                    <div 
+                      onClick={() => toggleCard(1)}
+                      className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col cursor-pointer hover:-translate-y-1"
+                    >
                       <div className="inline-flex items-center gap-2 mb-4">
-                        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-500 to-purple-600 text-white shadow-lg">
-                          01
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-500 to-purple-600 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                          <Heart className="h-5 w-5" />
                         </span>
                         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-600/80">
                           CORE SUPPORT
@@ -331,19 +338,25 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                       <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
                         Stigma-free, identity-aware support
                       </h3>
-                      <p className="text-sm md:text-base text-gray-600 flex-1">
+                      <p className={`text-sm md:text-base text-gray-600 flex-1 transition-all duration-300 overflow-hidden ${expandedCard === 1 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                         A space that recognises pronouns, identities and lived realities. Every check‑in,
                         nudge and insight is designed to affirm who you are, not flatten you into a template.
                       </p>
+                      <div className={`text-xs text-gray-400 mt-2 transition-opacity duration-300 ${expandedCard === 1 ? 'opacity-0' : 'opacity-100'}`}>
+                        Click to learn more
+                      </div>
                     </div>
                   </article>
 
                   {/* Card 2 */}
                   <article className="min-w-[260px] max-w-sm md:max-w-none snap-center">
-                    <div className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col">
+                    <div 
+                      onClick={() => toggleCard(2)}
+                      className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col cursor-pointer hover:-translate-y-1"
+                    >
                       <div className="inline-flex items-center gap-2 mb-4">
-                        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 text-white shadow-lg">
-                          02
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                          <Brain className="h-5 w-5" />
                         </span>
                         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-700/80">
                           QUEERPEDIA
@@ -352,20 +365,26 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                       <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
                         Evidence-led resources (Queerpedia)
                       </h3>
-                      <p className="text-sm md:text-base text-gray-600 flex-1">
+                      <p className={`text-sm md:text-base text-gray-600 flex-1 transition-all duration-300 overflow-hidden ${expandedCard === 2 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                         Queer-specific health explainers, not generic copy‑paste advice. Queerpedia is
                         curated from trusted, peer‑reviewed and community‑validated sources, in language
                         that actually makes sense.
                       </p>
+                      <div className={`text-xs text-gray-400 mt-2 transition-opacity duration-300 ${expandedCard === 2 ? 'opacity-0' : 'opacity-100'}`}>
+                        Click to learn more
+                      </div>
                     </div>
                   </article>
 
                   {/* Card 3 */}
                   <article className="min-w-[260px] max-w-sm md:max-w-none snap-center">
-                    <div className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col">
+                    <div 
+                      onClick={() => toggleCard(3)}
+                      className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col cursor-pointer hover:-translate-y-1"
+                    >
                       <div className="inline-flex items-center gap-2 mb-4">
-                        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg">
-                          03
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                          <Shield className="h-5 w-5" />
                         </span>
                         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700/80">
                           DRUG BANK
@@ -374,20 +393,26 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                       <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
                         Bias-free medication guidance
                       </h3>
-                      <p className="text-sm md:text-base text-gray-600 flex-1">
+                      <p className={`text-sm md:text-base text-gray-600 flex-1 transition-all duration-300 overflow-hidden ${expandedCard === 3 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                         The Queer‑Affirmative Drug Bank surfaces interactions and side‑effects that
-                        matter when you’re on hormones, HIV prevention/treatment, or gender‑affirming
-                        care — without cis‑normative assumptions.
+                        matter when you're on hormones, HIV prevention/treatment, or gender‑affirming
+                        care - without cis‑normative assumptions.
                       </p>
+                      <div className={`text-xs text-gray-400 mt-2 transition-opacity duration-300 ${expandedCard === 3 ? 'opacity-0' : 'opacity-100'}`}>
+                        Click to learn more
+                      </div>
                     </div>
                   </article>
 
                   {/* Card 4 */}
                   <article className="min-w-[260px] max-w-sm md:max-w-none snap-center">
-                    <div className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col">
+                    <div 
+                      onClick={() => toggleCard(4)}
+                      className="group h-full rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-[0_18px_45px_rgba(15,23,42,0.08)] hover:shadow-[0_22px_60px_rgba(15,23,42,0.14)] transition-all duration-300 p-6 flex flex-col cursor-pointer hover:-translate-y-1"
+                    >
                       <div className="inline-flex items-center gap-2 mb-4">
-                        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-orange-500 text-white shadow-lg">
-                          04
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-orange-500 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                          <Activity className="h-5 w-5" />
                         </span>
                         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-rose-700/80">
                           HOLISTIC CARE
@@ -396,17 +421,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                       <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
                         Holistic health care
                       </h3>
-                      <p className="text-sm md:text-base text-gray-600 flex-1">
-                        Mind, body, identity, intimacy, safety and community — connected in one daily
+                      <p className={`text-sm md:text-base text-gray-600 flex-1 transition-all duration-300 overflow-hidden ${expandedCard === 4 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+                        Mind, body, identity, intimacy, safety and community - connected in one daily
                         view. Pridally links check‑ins, mental health, sexual health and social support
                         into a single, living picture of your wellbeing.
                       </p>
+                      <div className={`text-xs text-gray-400 mt-2 transition-opacity duration-300 ${expandedCard === 4 ? 'opacity-0' : 'opacity-100'}`}>
+                        Click to learn more
+                      </div>
                     </div>
                   </article>
                 </div>
-
-                {/* gradient fade indicator on mobile scroll */}
-                <div className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-50 to-transparent md:hidden" />
               </div>
             </div>
       </section>
@@ -434,7 +459,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white text-lg shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-0.5">
                   ✨
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-700/80">
+                <span className="text-s font-semibold uppercase tracking-[0.2em] text-purple-700/80">
                   Vision
                 </span>
               </div>
@@ -449,7 +474,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 text-white text-lg shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-0.5">
                   🎯
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-700/80">
+                <span className="text-s font-semibold uppercase tracking-[0.2em] text-sky-700/80">
                   Mission
                 </span>
               </div>
@@ -464,7 +489,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white text-lg shadow-lg">
                   🧬
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700/80">
+                <span className="text-s font-semibold uppercase tracking-[0.2em] text-emerald-700/80">
                   Values & Ethos
                 </span>
               </div>
@@ -494,13 +519,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               PARTNERS · ALLIES · COMMUNITY
             </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
-              Built with{" "}
+              The Pulse between{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400">
-                trusted partners
+                Purpose and Possibility
               </span>
             </h2>
             <p className="mt-4 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
-              We collaborate with health systems, universities, and community organisations to keep
+              Built with trusted partners (Nextians). We collaborate with health systems, universities, and community organisations to keep
               PRIDaLLY grounded in science and shaped by lived experience.
             </p>
           </div>
