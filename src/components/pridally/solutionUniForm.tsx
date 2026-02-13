@@ -269,7 +269,7 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
                   size="lg"
                   className="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all group"
                 >
-                  Partner with PRIDaLLY
+                  Partner with PRIDalLY
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <Button
@@ -292,11 +292,11 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
           </div>
         </section>
 
-        {/* Why PRIDaLLY Section */}
+        {/* Why PRIDalLY Section */}
         <section className="py-20 md:py-28 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Why PRIDaLLY</h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Why PRIDalLY</h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                 Built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-400 font-semibold">academic rigour</span> and community trust.
               </p>
@@ -473,7 +473,7 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
                 Let's Build Together
               </h2>
               <p className="text-xl text-white/90 mb-10 max-w-xl mx-auto">
-                Partner with PRIDaLLY to advance inclusive, ethical research that makes a real difference.
+                Partner with PRIDalLY to advance inclusive, ethical research that makes a real difference.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -482,7 +482,7 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
                   size="lg"
                   className="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all group"
                 >
-                  👉 Partner with PRIDaLLY
+                  👉 Partner with PRIDalLY
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <Button
@@ -504,7 +504,7 @@ const SolutionUniPage: React.FC<SolutionUniPageProps> = ({ onGetStarted }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-gray-400 text-sm">
-              © {year} PRIDaLLY. All rights reserved.
+              © {year} PRIDalLY. All rights reserved.
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-400">
               <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>

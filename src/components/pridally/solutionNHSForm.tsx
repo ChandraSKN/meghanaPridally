@@ -279,7 +279,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
               </h1>
               
               <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
-                PRIDaLLY complements care - it doesn't replace it.
+                PRIDalLY complements care - it doesn't replace it.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -340,7 +340,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
           </div>
         </section>
 
-        {/* What PRIDaLLY Adds Section - Updated to match LandingPage style */}
+        {/* What PRIDalLY Adds Section - Updated to match LandingPage style */}
         <section className="py-20 md:py-28 bg-gradient-to-br from-gray-50 to-blue-50 relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Subtle background accents */}
@@ -353,7 +353,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
               <p className="uppercase tracking-[0.25em] text-xs font-semibold text-teal-600/80 mb-3">
                 FEATURES · TOOLS · INTEGRATION
               </p>
-              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">What PRIDaLLY Adds</h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">What PRIDalLY Adds</h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                 A between-appointments support layer that <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-teal-500 to-green-400 font-semibold">complements</span> your existing pathways.
               </p>
@@ -458,7 +458,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
                 Book a 20-Min Intro
               </h2>
               <p className="text-xl text-white/90 mb-10 max-w-xl mx-auto">
-                Learn how PRIDaLLY can complement your service pathways and support LGBTQIA+ communities.
+                Learn how PRIDalLY can complement your service pathways and support LGBTQIA+ communities.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -489,7 +489,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-gray-400 text-sm">
-              © {year} PRIDaLLY. All rights reserved.
+              © {year} PRIDalLY. All rights reserved.
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-400">
               <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>

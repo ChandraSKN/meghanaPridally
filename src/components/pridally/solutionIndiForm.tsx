@@ -464,7 +464,7 @@ const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-gray-400 text-sm">
-              © 2025 PRIDaLLY. All rights reserved.
+              © 2025 PRIDalLY. All rights reserved.
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-400">
               <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>

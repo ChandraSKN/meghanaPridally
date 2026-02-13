@@ -246,11 +246,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               Pride meets Allyship
             </p>
             <Button 
-              size="lg" 
-              onClick={onGetStarted}
-              className="bg-white/10 backdrop-blur-sm border border-white/30 text-white px-8 py-4 text-lg font-medium hover:bg-white/20 shadow-2xl animate-scale-in hover:scale-105 transition-all duration-300 rounded-full"
-            >
-              Start Your Wellness Journey
+                size="lg" 
+                onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfLySJExTkG6ad33uel5GCmexSGz0gEcnlrF-EhXnaLEvwbAg/viewform', '_blank')}
+                className="bg-white/10 backdrop-blur-sm border border-white/50 text-white px-8 py-4 text-lg font-medium hover:bg-white/20 shadow-2xl animate-scale-in hover:scale-105 transition-all duration-300 rounded-full"
+              >
+                🚀 Get Early Access
             </Button>
           </div>
         </div>
@@ -448,7 +448,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               VISION · MISSION · CORE IDENTITY
             </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
-              The heart behind <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400">PRIDaLLY</span>
+              The heart behind <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400">PRIDalLY</span>
             </h2>
           </div>
 
@@ -526,7 +526,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
             </h2>
             <p className="mt-4 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
               Built with trusted partners (Nextians). We collaborate with health systems, universities, and community organisations to keep
-              PRIDaLLY grounded in science and shaped by lived experience.
+              PRIDalLY grounded in science and shaped by lived experience.
             </p>
           </div>
 
@@ -593,20 +593,29 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto drop-shadow-md">
                 Join thousands of users who have improved their wellbeing with daily health tracking.
               </p>
-              <Button 
-                size="lg" 
-                onClick={onGetStarted}
-                className="bg-white text-gray-900 hover:bg-gray-100 shadow-2xl text-xl px-10 py-6 rounded-full hover:scale-105 transition-all duration-300 font-semibold"
-              >
-                Get Started Free
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Button 
+                  size="lg" 
+                  onClick={onGetStarted}
+                  className="bg-white text-gray-900 hover:bg-gray-100 shadow-2xl text-xl px-10 py-6 rounded-full hover:scale-105 transition-all duration-300 font-semibold"
+                >
+                  Get Started Free
+                </Button>
+                <Button 
+                  size="lg" 
+                  onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSfYourFormId/viewform', '_blank')}
+                  className="bg-white/20 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white/30 shadow-2xl text-xl px-10 py-6 rounded-full hover:scale-105 transition-all duration-300 font-semibold"
+                >
+                  🚀 Get Early Access
+                </Button>
+              </div>
             </div>
           </div>
 
           <footer className="py-12 bg-gray-900 text-white">
             <div className="mx-auto px-4">
               <div className="text-center text-gray-400 text-sm">
-                © 2025 PRIDaLLY. All rights reserved.
+                © 2025 PRIDalLY. All rights reserved.
               </div>
             </div>
           </footer>

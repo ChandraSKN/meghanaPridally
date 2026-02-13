@@ -190,7 +190,7 @@ const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onGetStarted }) => 
       <footer className="py-12 bg-gray-900 text-white">
         <div className=" mx-auto px-4">
             <div className="text-center text-gray-400 text-sm">
-              © 2025 PRIDaLLY. All rights reserved.
+              © 2025 PRIDalLY. All rights reserved.
             </div>
           </div>
       </footer>

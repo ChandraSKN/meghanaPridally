@@ -49,7 +49,7 @@ const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onGetStarted }) => 
     { 
       icon: <FileCheck className="h-7 w-7" />, 
       title: 'Explicit Disclaimers',
-      description: 'Clear communication that PRIDaLLY is non-clinical and non-emergency, with appropriate signposting to professional services.',
+      description: 'Clear communication that PRIDalLY is non-clinical and non-emergency, with appropriate signposting to professional services.',
       bgGradient: 'from-blue-500 to-cyan-500',
       label: 'CLARITY',
       labelColor: 'text-blue-600/80'
@@ -120,7 +120,7 @@ const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onGetStarted }) => 
 
   const partnershipModels = [
     { title: 'Pilot Programmes', description: 'Test and iterate with your community', emoji: '🧪', bgGradient: 'from-purple-500 to-indigo-500' },
-    { title: 'Digital Signposting', description: 'Integrate PRIDaLLY into your pathways', emoji: '🔗', bgGradient: 'from-blue-500 to-cyan-500' },
+    { title: 'Digital Signposting', description: 'Integrate PRIDalLY into your pathways', emoji: '🔗', bgGradient: 'from-blue-500 to-cyan-500' },
     { title: 'Research Collaboration', description: 'Ethical, community-grounded studies', emoji: '📊', bgGradient: 'from-green-500 to-emerald-500' },
     { title: 'Co-Designed Initiatives', description: 'Build together from the start', emoji: '🤝', bgGradient: 'from-pink-500 to-rose-500' }
   ];
@@ -321,7 +321,7 @@ const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onGetStarted }) => 
               </h1>
               
               <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed">
-                PRIDaLLY is built with clinical, ethical, and safeguarding oversight - because trust is earned, not assumed.
+                PRIDalLY is built with clinical, ethical, and safeguarding oversight - because trust is earned, not assumed.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -616,7 +616,7 @@ const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onGetStarted }) => 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-gray-400 text-sm">
-              © {year} PRIDaLLY. All rights reserved.
+              © {year} PRIDalLY. All rights reserved.
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-400">
               <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>

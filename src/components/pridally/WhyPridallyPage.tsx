@@ -285,7 +285,7 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
             <div className="text-center">
               <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white/90 text-sm mb-6">
                 <Sparkles className="h-4 w-4" />
-                 Why PRIDaLLY
+                 Why PRIDalLY
               </div>
               
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
@@ -326,7 +326,7 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
           </div>
         </section>
 
-        {/* Why PRIDaLLY Features Section */}
+        {/* Why PRIDalLY Features Section */}
         <section className="py-20 md:py-28 bg-gradient-to-br from-gray-50 to-purple-50 relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Subtle background accents */}
@@ -339,7 +339,7 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
               <p className="uppercase tracking-[0.25em] text-xs font-semibold text-purple-600/80 mb-3">
                 IDENTITY · EVIDENCE · CARE
               </p>
-              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">✨ Why PRIDaLLY</h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">✨ Why PRIDalLY</h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                 Built <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 font-semibold">different</span>. Built better. Built for you.
               </p>
@@ -638,7 +638,7 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-gray-400 text-sm">
-              © {year} PRIDaLLY. All rights reserved.
+              © {year} PRIDalLY. All rights reserved.
             </div>
             <div className="flex items-center gap-6 text-sm text-gray-400">
               <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
