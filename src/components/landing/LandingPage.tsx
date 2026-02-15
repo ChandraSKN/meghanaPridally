@@ -141,12 +141,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 )}
               </div>
 
-              <button 
+              {/* <button 
                 onClick={() => window.location.href = '/press'}
                 className="text-white/90 hover:text-white transition-colors"
               >
                 Press
-              </button>
+              </button> */}
 
               <button 
                 onClick={onGetStarted}
