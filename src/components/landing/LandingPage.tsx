@@ -62,7 +62,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
           muted
           loop
           playsInline
-          className="w-full h-full object-cover contrast-105 brightness-110"
+          className="w-full h-full object-cover object-center md:object-center sm:object-center"
         >
           <source src="/videos/pridally_video_hero_page.mov" type="video/mp4" />
           Your browser does not support the video tag.
