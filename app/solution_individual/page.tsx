@@ -12,6 +12,6 @@ export default function IndividualPage() {
     }
 
   return (
-    <SolutionIndiPage onBack={handleBack} />
+    <SolutionIndiPage onGetStarted={handleBack} />
   )
 }

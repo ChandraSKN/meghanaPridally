@@ -12,6 +12,6 @@ export default function PridAllyPage() {
     }
 
   return (
-    <SolutionUniPage onBack={handleBack} />
+    <SolutionUniPage onGetStarted={handleBack} />
   )
 }

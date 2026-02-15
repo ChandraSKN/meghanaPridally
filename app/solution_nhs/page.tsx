@@ -12,6 +12,6 @@ export default function PridAllyPage() {
     }
 
   return (
-    <SolutionNHSPage onBack={handleBack} />
+    <SolutionNHSPage onGetStarted={handleBack} />
   )
 }

@@ -12,6 +12,6 @@ export default function PridAllyPage() {
     }
 
   return (
-    <WhyPridallyPage onBack={handleBack} />
+    <WhyPridallyPage onGetStarted={handleBack} />
   )
 }

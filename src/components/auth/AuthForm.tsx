@@ -1,25 +1,36 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
-import { Eye, EyeOff, Heart } from 'lucide-react';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { Eye, EyeOff, Heart } from "lucide-react";
 
 interface AuthFormProps {
   onBack: () => void;
   onSignUpRedirect?: () => void;
+  onSignInSuccess?: () => void;
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ onBack, onSignUpRedirect }) => {
+const AuthForm: React.FC<AuthFormProps> = ({
+  onBack,
+  onSignUpRedirect,
+  onSignInSuccess,
+}) => {
   const [isSignIn, setIsSignIn] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const { signin, signup } = useAuth();
   const { toast } = useToast();
 
@@ -29,7 +40,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ onBack, onSignUpRedirect }) => {
 
     try {
       let success = false;
-      
+
       if (isSignIn) {
         success = await signin(email, password);
       } else {
@@ -38,14 +49,21 @@ const AuthForm: React.FC<AuthFormProps> = ({ onBack, onSignUpRedirect }) => {
 
       if (success) {
         if (!isSignIn && onSignUpRedirect) {
-          // For sign up, redirect to PridAlly form for pathway selection
+          // For sign up → redirect to PridAlly form
           onSignUpRedirect();
         } else {
-          // For sign in, show success message and continue to dashboard
+          // For sign in → show success message
           toast({
             title: isSignIn ? "Welcome back!" : "Account created!",
-            description: isSignIn ? "You've been signed in successfully." : "Your account has been created and you're now signed in.",
+            description: isSignIn
+              ? "You've been signed in successfully."
+              : "Your account has been created and you're now signed in.",
           });
+
+          // 🔥 Trigger redirect after sign-in if provided
+          if (isSignIn && onSignInSuccess) {
+            onSignInSuccess();
+          }
         }
       } else {
         toast({
@@ -73,16 +91,15 @@ const AuthForm: React.FC<AuthFormProps> = ({ onBack, onSignUpRedirect }) => {
             <Heart className="h-8 w-8 text-primary-foreground" />
           </div>
           <CardTitle className="text-2xl font-bold">
-            {isSignIn ? 'Welcome Back' : 'Join Pridally'}
+            {isSignIn ? "Welcome Back" : "Join Pridally"}
           </CardTitle>
           <CardDescription>
-            {isSignIn 
-              ? 'Sign in to continue your wellness journey' 
-              : 'Start tracking your health and wellness today'
-            }
+            {isSignIn
+              ? "Sign in to continue your wellness journey"
+              : "Start tracking your health and wellness today"}
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isSignIn && (
@@ -99,7 +116,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ onBack, onSignUpRedirect }) => {
                 />
               </div>
             )}
-            
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -112,13 +129,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ onBack, onSignUpRedirect }) => {
                 className="bg-background/50"
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -140,16 +157,20 @@ const AuthForm: React.FC<AuthFormProps> = ({ onBack, onSignUpRedirect }) => {
                 </Button>
               </div>
             </div>
-            
-            <Button 
-              type="submit" 
+
+            <Button
+              type="submit"
               className="w-full bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-medium"
               disabled={loading}
             >
-              {loading ? 'Processing...' : (isSignIn ? 'Sign In' : 'Create Account')}
+              {loading
+                ? "Processing..."
+                : isSignIn
+                  ? "Sign In"
+                  : "Create Account"}
             </Button>
           </form>
-          
+
           <div className="mt-6 text-center space-y-4">
             <p className="text-sm text-muted-foreground">
               {isSignIn ? "Don't have an account?" : "Already have an account?"}
@@ -159,9 +180,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ onBack, onSignUpRedirect }) => {
               onClick={() => setIsSignIn(!isSignIn)}
               className="text-primary hover:text-primary/80"
             >
-              {isSignIn ? 'Create Account' : 'Sign In'}
+              {isSignIn ? "Create Account" : "Sign In"}
             </Button>
-            
+
             <Button
               variant="outline"
               onClick={onBack}

@@ -3,10 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Heart, Shield, Menu, X, ChevronDown, ArrowRight, Sparkles, Users, Lock, FileCheck, Calendar, Building2, GraduationCap, Handshake, AlertTriangle, Brain, Scale } from 'lucide-react';
 
 interface SafeguardingPageProps {
-  onGetStarted: () => void;
+  onBack?: () => void;
 }
 
-const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onGetStarted }) => {
+const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onBack }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
@@ -117,6 +117,10 @@ const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onGetStarted }) => 
       bgGradient: 'from-orange-500 to-amber-500'
     }
   ];
+const handleBack = () => {
+  if (onBack) return onBack();
+  if (typeof window !== 'undefined') window.history.back();
+};
 
   const partnershipModels = [
     { title: 'Pilot Programmes', description: 'Test and iterate with your community', emoji: '🧪', bgGradient: 'from-purple-500 to-indigo-500' },

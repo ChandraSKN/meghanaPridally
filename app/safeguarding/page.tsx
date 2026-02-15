@@ -12,6 +12,7 @@ export default function PridAllyPage() {
     }
 
   return (
-    <SafeGuardingPage onBack={handleBack} />
+    <div>hi</div>
+    // <SafeGuardingPage onBack={handleBack} />
   )
 }

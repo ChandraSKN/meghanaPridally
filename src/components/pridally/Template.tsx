@@ -3,11 +3,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, Activity, Brain, Calendar, MessageCircle, Shield, Menu, X, ChevronDown } from 'lucide-react';
 
-interface Safeguarding {
+interface SafeguardingPageProps {
   onGetStarted: () => void;
+  onBack?: () => void;
 }
 
-const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onGetStarted }) => {
+
+const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onGetStarted, onBack }) => {
+
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
