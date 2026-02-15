@@ -11,7 +11,6 @@ interface SafeguardingPageProps {
 
 const SafeGuardingPage: React.FC<SafeguardingPageProps> = ({ onGetStarted, onBack }) => {
 
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState('All Posts');
