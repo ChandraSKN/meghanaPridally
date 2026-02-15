@@ -2,8 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import PridAllyForm from '@/components/pridally/PridAllyForm'
-
+import PridAllyForm from '@/components/auth/PridAllyForm'
 export default function PridAllyPage() {
   const router = useRouter()
   
