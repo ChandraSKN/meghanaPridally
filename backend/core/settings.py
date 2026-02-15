@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
@@ -82,15 +83,13 @@ TEMPLATES = [
 # DATABASE
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='pridal_db'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD', default='Parshu@026'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
-    }
+    'default': dj_database_url.parse(
+        config('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
+
 
 # CUSTOM USER MODEL (IMPORTANT)
 
