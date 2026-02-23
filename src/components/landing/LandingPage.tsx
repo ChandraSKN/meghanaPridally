@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, Activity, Brain, Calendar, MessageCircle, Shield, Menu, X, ChevronDown } from 'lucide-react';
@@ -141,12 +142,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 )}
               </div>
 
-              {/* <button 
-                onClick={() => window.location.href = '/press'}
+
+              <a 
+                href="/press"
                 className="text-white/90 hover:text-white transition-colors"
               >
-                Press
-              </button> */}
+                Media
+              </a>
+
 
               <button 
                 onClick={onGetStarted}
@@ -359,14 +362,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                           <Brain className="h-5 w-5" />
                         </span>
                         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-700/80">
-                          QUEERPEDIA
+                          Queeripedia
                         </span>
                       </div>
                       <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
-                        Evidence-led resources (Queerpedia)
+                        Evidence-led resources (Queeripedia)
                       </h3>
                       <p className={`text-sm md:text-base text-gray-600 flex-1 transition-all duration-300 overflow-hidden ${expandedCard === 2 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
-                        Queer-specific health explainers, not generic copy‑paste advice. Queerpedia is
+                        Queer-specific health explainers, not generic copy‑paste advice. Queeripedia is
                         curated from trusted, peer‑reviewed and community‑validated sources, in language
                         that actually makes sense.
                       </p>

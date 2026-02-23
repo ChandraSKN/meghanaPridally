@@ -33,7 +33,7 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
     { 
       icon: <BookOpen className="h-7 w-7" />, 
       title: 'Evidence, Not Opinions', 
-      description: 'Queerpedia = science, minus the shame. Evidence-based information written for LGBTQIA+ bodies and experiences.', 
+      description: 'Queeripedia = science, minus the shame. Evidence-based information written for LGBTQIA+ bodies and experiences.', 
       bgGradient: 'from-purple-500 to-indigo-500',
       label: 'KNOWLEDGE',
       labelColor: 'text-purple-600/80'
@@ -179,7 +179,7 @@ const WhyPridallyPage: React.FC<WhyPridallyPageProps> = ({ onGetStarted }) => {
                     onClick={() => window.location.href = '/press'}
                     className="text-black/90 hover:text-black transition-colors"
                 >
-                    Press
+                    Media
                 </button>
 
                 <button 

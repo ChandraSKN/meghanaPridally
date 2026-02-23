@@ -44,7 +44,7 @@ const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => 
     },
     {
       icon: <Book className="h-7 w-7 text-white-600" />,
-      title: 'Queerpedia',
+      title: 'Queeripedia',
       description: 'Health info that actually sees you.',
       gradient: 'from-blue-500 to-teal-500',
       bgGradient: 'from-sky-500 to-indigo-500',
@@ -154,8 +154,10 @@ const SolutionIndiPage: React.FC<SolutionIndiPageProps> = ({ onGetStarted }) => 
                     onClick={() => window.location.href = '/press'}
                     className="text-black/90 hover:text-black transition-colors"
                 >
-                    Press
+                    Media
                 </button>
+
+                
 
                 <button 
                     onClick={() => window.location.href = '/auth'}
