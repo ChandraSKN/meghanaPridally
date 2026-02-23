@@ -217,12 +217,12 @@ const PressPage: React.FC<PressPageProps> = ({ onGetStarted }) => {
                 )}
               </div>
 
-              <button 
-                onClick={() => window.location.href = '/press'}
-                className="text-black/90 hover:text-black transition-colors"
+              <a 
+                href="/press"
+                className="text-white/90 hover:text-white transition-colors"
               >
                 Media
-              </button>
+              </a>
 
               <button 
                 onClick={() => window.location.href = '/auth'}

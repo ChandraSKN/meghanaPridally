@@ -159,7 +159,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
                     onClick={() => window.location.href = '/press'}
                     className="text-black/90 hover:text-black transition-colors"
                 >
-                    Press
+                    Media
                 </button>
 
                 <button 
