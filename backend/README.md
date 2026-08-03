@@ -1,12 +1,12 @@
 # Django Backend Setup Guide
 
 ## Overview
-This is the Django REST API backend for the Pridal Daily Health Guide application. It uses PostgreSQL for data storage and JWT tokens for authentication.
+This is the Django REST API backend for the Pridal Daily Health Guide application. It uses PostgreSQL for data storage in production (SQLite for local dev) and JWT tokens for authentication.
 
 ## Prerequisites
 - Python 3.8+
-- PostgreSQL 12+
 - pip (Python package manager)
+- PostgreSQL 12+ — **only needed in production**; local dev uses a SQLite file automatically.
 
 ## Installation
 
@@ -14,10 +14,7 @@ This is the Django REST API backend for the Pridal Daily Health Guide applicatio
 ```bash
 cd backend
 python -m venv venv
-
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 ```
 
 ### 2. Install Dependencies
@@ -30,26 +27,22 @@ pip install -r requirements.txt
 # Copy the example env file
 cp .env.example .env
 
-# Edit .env and set your values
+# Defaults are fine for local dev (SQLite, insecure dev SECRET_KEY).
+# For production, set SECRET_KEY, DEBUG=False, ALLOWED_HOSTS, DATABASE_URL, CORS_ALLOWED_ORIGINS.
 ```
 
-### 4. Create PostgreSQL Database
+### 4. Run Migrations
 ```bash
-createdb pridal_db
-```
-
-### 5. Run Migrations
-```bash
-python manage.py makemigrations
 python manage.py migrate
 ```
+This creates `backend/db.sqlite3` if `DATABASE_URL` isn't set. In production, set `DATABASE_URL` to a Postgres connection string before running this.
 
-### 6. Create Superuser
+### 5. Create Superuser
 ```bash
 python manage.py createsuperuser
 ```
 
-### 7. Run Development Server
+### 6. Run Development Server
 ```bash
 python manage.py runserver
 ```

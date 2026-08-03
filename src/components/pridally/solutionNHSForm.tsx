@@ -1,26 +1,20 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart, Activity, Brain, Clock, MessageCircle, Shield, Menu, X, ChevronDown, ArrowRight, Sparkles, CheckCircle2, BookOpen, Link2, BarChart3, Users } from 'lucide-react';
+import { Heart, Activity, Brain, Clock, MessageCircle, Shield, ArrowRight, Sparkles, CheckCircle2, BookOpen, Link2, BarChart3, Users } from 'lucide-react';
+import SiteHeader from './SiteHeader';
+import SiteFooter from './SiteFooter';
 
 interface SolutionNHSPageProps {
   onGetStarted: () => void;
 }
 
 const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
-
-  const toggleDropdown = (dropdown: string) => {
-    setOpenDropdown(openDropdown === dropdown ? null : dropdown);
-  };
 
   const toggleCard = (cardIndex: number) => {
     setExpandedCard(expandedCard === cardIndex ? null : cardIndex);
   };
-
-  const year = new Date().getFullYear();
 
   const problems = [
     { icon: <Clock className="h-6 w-6" />, title: 'Long waits', color: 'text-red-500', bg: 'bg-red-50' },
@@ -86,168 +80,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Navigation Bar */}
-      <nav className="sticky top-0 z-50 bg-transparent backdrop-blur-md border-b border-white/10">
-            <div className="w-full px-8">
-            <div className="flex items-center justify-between h-16">
-                {/* Logo */}
-                <div>
-                    <img 
-                        src="/Pridally_logo.png" 
-                        alt="Pridally" 
-                        className="h-[138px] w-auto mx-auto brightness-130"
-                        onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                            const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-                            if (fallback) fallback.style.display = 'inline';
-                        }}
-                        />
-                    <span className="text-4xl font-bold text-black mb-8 block" style={{display: 'none'}}>Pridally</span>
-                </div>
-
-                {/* Desktop Navigation */}
-                <div className="hidden md:flex items-center space-x-8">
-                <a href="/" className="text-black/90 hover:text-black transition-colors">
-                    Home
-                </a>
-
-                {/* Solutions Dropdown */}
-                <div className="relative">
-                    <button
-                    onClick={() => toggleDropdown('solutions')}
-                    className="flex items-center text-black/90 hover:text-black transition-colors"
-                    >
-                    Solutions
-                    <ChevronDown className="ml-1 h-4 w-4" />
-                    </button>
-                    {openDropdown === 'solutions' && (
-                    <div className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-sm rounded-md shadow-lg py-2 z-10">
-                        <a href="/solution_individual" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                        For Individuals
-                        </a>
-                        <a href="/solution_nhs" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                        For NHS/Services
-                        </a>
-                        <a href="/solution_uni" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                        For Universities/Research
-                        </a>
-                    </div>
-                    )}
-                </div>
-
-                {/* About Us Dropdown */}
-                <div className="relative">
-                    <button
-                    onClick={() => toggleDropdown('about')}
-                    className="flex items-center text-black/90 hover:text-black transition-colors"
-                    >
-                    About Us
-                    <ChevronDown className="ml-1 h-4 w-4" />
-                    </button>
-                    {openDropdown === 'about' && (
-                    <div className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-sm rounded-md shadow-lg py-2 z-10">
-                        <a href="/why_pridally" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                        Why Pridally
-                        </a>
-                        <a href="/safeguarding" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                        Safeguarding & Clinical Standards
-                        </a>
-                    </div>
-                    )}
-                </div>
-
-                <button 
-                    onClick={() => window.location.href = '/press'}
-                    className="text-black/90 hover:text-black transition-colors"
-                >
-                    Media
-                </button>
-
-                <button 
-                    onClick={() => window.location.href = '/auth'}
-                    className="bg-teal-500 text-white px-6 py-2 rounded-full hover:bg-green-400 transition-colors shadow-md hover:shadow-lg"
-                >
-                    Join Pridally
-                </button>
-
-                </div>
-
-                
-
-                {/* Mobile menu button */}
-                <div className="md:hidden">
-                <button
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="text-white hover:text-white/80"
-                >
-                    {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                </button>
-                </div>
-            </div>
-
-            {/* Mobile Navigation */}
-            {isMenuOpen && (
-                <div className="md:hidden py-4 border-t border-white/20">
-                <div className="space-y-4">
-                    <a href="#home" className="block text-white/90 hover:text-white">
-                    Home
-                    </a>
-                    
-                    <button 
-                    onClick={() => window.location.href = '/auth'}
-                    className="block w-full text-left text-white/90 hover:text-white"
-                    >
-                    Join Pridally
-                    </button>
-
-                    {/* Mobile Solutions */}
-                    <div>
-                    <button
-                        onClick={() => toggleDropdown('mobile-solutions')}
-                        className="flex items-center justify-between w-full text-white/90 hover:text-white"
-                    >
-                        Solutions
-                        <ChevronDown className="h-4 w-4" />
-                    </button>
-                    {openDropdown === 'mobile-solutions' && (
-                        <div className="mt-2 ml-4 space-y-2">
-                        <a href="/solution_individual" className="block text-white/70 hover:text-white">
-                            For Individuals
-                        </a>
-                        <a href="/solution_nhs" className="block text-white/70 hover:text-white">
-                            For NHS/Services
-                        </a>
-                        <a href="/solution_uni" className="block text-white/70 hover:text-white">
-                            For Universities/Research
-                        </a>
-                        </div>
-                    )}
-                    </div>
-
-                    {/* Mobile About Us */}
-                    <div>
-                    <button
-                        onClick={() => toggleDropdown('mobile-about')}
-                        className="flex items-center justify-between w-full text-white/90 hover:text-white"
-                    >
-                        About Us
-                        <ChevronDown className="h-4 w-4" />
-                    </button>
-                    {openDropdown === 'mobile-about' && (
-                        <div className="mt-2 ml-4 space-y-2">
-                        <a href="/why_pridally" className="block text-white/70 hover:text-white">
-                            Why Pridally
-                        </a>
-                        <a href="/safeguarding" className="block text-white/70 hover:text-white">
-                            Safeguarding & Clinical Standards
-                        </a>
-                        </div>
-                    )}
-                    </div>
-                </div>
-                </div>
-            )}
-            </div>
-        </nav>
+      <SiteHeader onGetStarted={onGetStarted} />
 
 
       
@@ -485,20 +318,7 @@ const SolutionNHSPage: React.FC<SolutionNHSPageProps> = ({ onGetStarted }) => {
       </main>
 
       {/* Footer */}
-      <footer className="py-12 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-gray-400 text-sm">
-              © {year} PRIDalLY. All rights reserved.
-            </div>
-            <div className="flex items-center gap-6 text-sm text-gray-400">
-              <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>
-              <a href="/contact" className="hover:text-white transition-colors">Contact</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 };

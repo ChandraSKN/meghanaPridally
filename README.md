@@ -1,116 +1,105 @@
 # Pridally Daily Guide
 
-A comprehensive daily health guide built with Next.js, React, and Tailwind CSS.
+A comprehensive daily health guide for LGBTQIA+ wellness, built with Next.js/React on the frontend and a Django REST API backend.
+
+## 🏗️ Architecture
+
+This is a two-service application:
+
+- **Frontend** (`app/`, `src/`): Next.js 15 (App Router), statically exported (`output: 'export'`) and deployed to **GitHub Pages**. Since a static export has no server runtime, it talks to the backend directly over the network using JWT auth.
+- **Backend** (`backend/`): Django REST Framework API with JWT auth (`djangorestframework-simplejwt`), deployed separately (e.g. Render/Railway/Fly — anywhere that can run a WSGI app + Postgres). See `backend/README.md` for API docs and `backend/Dockerfile` for containerized deploys.
+
+Because the frontend is a static export, `NEXT_PUBLIC_API_URL` must be set **at build time** to the backend's real URL. Locally it defaults to `http://127.0.0.1:8000`.
 
 ## 🚀 Features
 
-- Daily health check-ins
-- Health calendar tracking
-- Doctor scheduling
-- Health chatbot
-- Responsive design with Tailwind CSS
-- Modern UI components with ShadCN/UI
+- Real JWT-authenticated signup/signin (Django backend, not mocked)
+- Daily health check-ins across five categories (mental, sexual, reproductive, physical, social health), persisted server-side
+- Health calendar tracking, doctor scheduling, health chatbot
+- Responsive design with Tailwind CSS + ShadCN/UI
 
-## 🛠️ Tech Stack
+## 📦 Local Development
 
-- **Framework:** Next.js 15.5.4
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **UI Components:** ShadCN/UI + Radix UI
-- **State Management:** React Context + React Query
-- **Icons:** Lucide React
+You need both services running locally.
 
-## 📦 Installation
+### Backend (Django API)
 
-1. Clone the repository:
 ```bash
-git clone https://github.com/kagodamos148/pridally-daily-guide.git
-cd pridally-daily-guide
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+cp .env.example .env  # defaults are fine for local dev (SQLite, insecure dev SECRET_KEY)
+
+python manage.py migrate
+python manage.py runserver 8000
 ```
 
-2. Install dependencies:
+The API is now at `http://127.0.0.1:8000/api/`, with interactive docs at `http://127.0.0.1:8000/api/docs/`. No Postgres install needed locally — it falls back to a SQLite file (`backend/db.sqlite3`) when `DATABASE_URL` isn't set. See `backend/README.md` for full endpoint documentation.
+
+### Frontend (Next.js)
+
 ```bash
+cp .env.example .env.local  # NEXT_PUBLIC_API_URL defaults to http://127.0.0.1:8000
 npm install
-```
-
-3. Run the development server:
-```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-## 🏗️ Build & Export
+## 🛠️ Tech Stack
 
-To build for production:
+- **Frontend:** Next.js 15, TypeScript, Tailwind CSS, ShadCN/UI + Radix UI, React Query
+- **Backend:** Django 4.2, Django REST Framework, SimpleJWT, PostgreSQL (SQLite for local dev)
+
+## 🏗️ Build & Deploy
+
 ```bash
-npm run build
+npm run build   # produces a static export in ./out
 ```
 
-To export as static files:
+### Frontend → GitHub Pages
+
+Deploys automatically via `.github/workflows/deploy.yml` on push to `main`. Requires a repo variable `NEXT_PUBLIC_API_URL` (Settings → Secrets and variables → Actions → Variables) pointing at your deployed backend, and `CORS_ALLOWED_ORIGINS` on the backend to include your GitHub Pages origin.
+
+### Backend → wherever runs Docker
+
 ```bash
-npm run export
+cd backend
+docker build -t pridally-backend .
+docker run -p 8000:8000 --env-file .env pridally-backend
 ```
 
-## 🚀 Deployment to GitHub Pages
-
-This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
-
-### Setup Instructions:
-
-1. **Enable GitHub Pages:**
-   - Go to your repository on GitHub
-   - Navigate to Settings → Pages
-   - Under "Source", select "GitHub Actions"
-
-2. **Push to main branch:**
-   ```bash
-   git add .
-   git commit -m "Setup GitHub Pages deployment"
-   git push origin main
-   ```
-
-3. **Automatic Deployment:**
-   - The GitHub Actions workflow will automatically build and deploy your site
-   - Your site will be available at: `https://kagodamos148.github.io/pridally-daily-guide/`
-
-### Manual Deployment:
-If you prefer to deploy manually:
-
-1. Build the static files :
-```bash
-npm run build
-```
-
-2. The static files will be in the `out` directory
-3. Upload the contents of the `out` directory to your web server
+Set `DEBUG=False`, a real `SECRET_KEY`, and `DATABASE_URL` (Postgres) in production — see `backend/.env.example`.
 
 ## 📁 Project Structure
 
 ```
-├── app/                    # Next.js App Router
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx          # Home page
-│   ├── not-found.tsx     # 404 page
-│   └── providers.tsx     # Client providers
+├── app/                    # Next.js App Router (routes only — thin wrappers)
+│   ├── layout.tsx
+│   ├── page.tsx            # Landing page, redirects to /dashboard if authenticated
+│   ├── dashboard/           # Authenticated app (guarded route)
+│   └── ...                 # auth, pridally, gender_identity, marketing pages
 ├── src/
-│   ├── components/       # Reusable components
-│   │   ├── auth/        # Authentication components
-│   │   ├── dashboard/   # Dashboard components
-│   │   ├── landing/     # Landing page components
-│   │   └── ui/          # UI components (ShadCN)
-│   ├── contexts/        # React contexts
-│   ├── hooks/           # Custom hooks
-│   └── lib/             # Utility functions
-├── public/              # Static assets
-└── .github/workflows/   # GitHub Actions
+│   ├── components/
+│   │   ├── auth/           # Auth forms
+│   │   ├── dashboard/      # Authenticated app UI
+│   │   ├── landing/        # Landing page
+│   │   ├── pridally/       # Marketing pages + shared SiteHeader/SiteFooter
+│   │   └── ui/             # ShadCN UI primitives
+│   ├── contexts/           # AuthContext, HealthContext (call the Django API)
+│   ├── lib/api.ts          # API client (JWT handling, typed endpoints)
+│   └── hooks/
+├── backend/                 # Django REST API (see backend/README.md)
+├── public/                  # Static assets
+└── .github/workflows/       # GitHub Actions (frontend deploy)
 ```
 
 ## 🔧 Scripts
 
 - `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
+- `npm run build` - Build the static export (`./out`)
 - `npm run lint` - Run ESLint
 - `npm run type-check` - Run TypeScript type checking
 
@@ -121,4 +110,3 @@ This project uses Tailwind CSS with a custom healthcare-focused design system fe
 ## 📝 License
 
 This project is private and not licensed for public use.
-# meghanaPridally

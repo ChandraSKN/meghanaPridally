@@ -1,24 +1,35 @@
 'use client'
 
-import React from 'react'
-import { useRouter } from 'next/navigation'
+import React, { Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import GenderIdentityForm from '@/components/pridally/GenderIdentityForm'
 
-export default function PridAllyPage() {
+function GenderIdentityPageInner() {
   const router = useRouter()
-  
+  const searchParams = useSearchParams()
+  const pathwayType = searchParams.get('pathway') === 'ally' ? 'ally' : 'pryd'
+
   const handleBack = () => {
-    router.push('/gender_identity') // Go back to gender identity page
+    router.push('/pridally') // Go back to pathway selection
   }
-  
+
   const handleFormComplete = () => {
-    router.push('/dashboard') // Redirect to dashboard after form completion
+    router.push('/dashboard')
   }
 
   return (
-    <GenderIdentityForm 
+    <GenderIdentityForm
       onBack={handleBack}
+      pathwayType={pathwayType}
       onComplete={handleFormComplete}
     />
+  )
+}
+
+export default function GenderIdentityPage() {
+  return (
+    <Suspense fallback={null}>
+      <GenderIdentityPageInner />
+    </Suspense>
   )
 }

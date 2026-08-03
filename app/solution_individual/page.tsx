@@ -4,14 +4,10 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import SolutionIndiPage from '@/components/pridally/solutionIndiForm';
 
-export default function IndividualPage() {
-    const router = useRouter()
-
-    const handleBack = () => {
-        router.push('/') // Go back to home page
-    }
+export default function SolutionIndividualPage() {
+  const router = useRouter()
 
   return (
-    <SolutionIndiPage onGetStarted={handleBack} />
+    <SolutionIndiPage onGetStarted={() => router.push('/auth')} />
   )
 }

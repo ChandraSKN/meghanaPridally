@@ -75,16 +75,17 @@ class DailyCheckInViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'No check-ins available'}, status=status.HTTP_404_NOT_FOUND)
         
         # Calculate stats
-        moods = [c.mood for c in checkins]
-        energies = [c.energy_level for c in checkins]
-        avg_sleep = sum([c.sleep_hours for c in checkins]) / len(checkins)
+        moods = [c.mood for c in checkins if c.mood]
+        energies = [c.energy_level for c in checkins if c.energy_level]
+        sleep_values = [c.sleep_hours for c in checkins if c.sleep_hours is not None]
+        avg_sleep = round(sum(sleep_values) / len(sleep_values), 2) if sleep_values else 0
         total_exercise = sum([c.exercise_minutes for c in checkins])
-        
+
         stats_data = {
             'total_checkins': len(checkins),
             'average_mood': max(moods, key=moods.count) if moods else 'N/A',
             'average_energy': max(energies, key=energies.count) if energies else 'N/A',
-            'average_sleep': round(avg_sleep, 2),
+            'average_sleep': avg_sleep,
             'total_exercise_minutes': total_exercise,
         }
         

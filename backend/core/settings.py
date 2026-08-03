@@ -7,11 +7,15 @@ from decouple import config
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-here-change-in-production')
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
+
+# SECURITY WARNING: keep the secret key used in production secret!
+# No insecure fallback in non-debug environments — production must set SECRET_KEY explicitly.
+if DEBUG:
+    SECRET_KEY = config('SECRET_KEY', default='django-insecure-local-dev-only-do-not-use-in-production')
+else:
+    SECRET_KEY = config('SECRET_KEY')
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
@@ -81,12 +85,16 @@ TEMPLATES = [
 ]
 
 # DATABASE
+# Falls back to a local SQLite file when DATABASE_URL isn't set, so local dev needs no Postgres install.
+# Production must set DATABASE_URL (e.g. to a hosted Postgres instance).
+
+DATABASE_URL = config('DATABASE_URL', default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
 
 DATABASES = {
     'default': dj_database_url.parse(
-        config('DATABASE_URL'),
+        DATABASE_URL,
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=not DEBUG and DATABASE_URL.startswith('postgres'),
     )
 }
 
@@ -148,10 +156,12 @@ SIMPLE_JWT = {
 }
 
 # CORS
+# Override CORS_ALLOWED_ORIGINS in production to your actual GitHub Pages URL
+# (defaults include the repo's inferred Pages URL, but confirm it matches your Pages settings).
 
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000,http://127.0.0.1:3000',
+    default='http://localhost:3000,http://127.0.0.1:3000,https://chandraskn.github.io',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 

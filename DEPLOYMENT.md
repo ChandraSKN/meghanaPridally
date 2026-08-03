@@ -1,75 +1,59 @@
-# GitHub Pages Deployment Checklist
+# Deployment Guide
 
-## ✅ Pre-Deployment Setup (Completed)
+This app is two services deployed separately:
 
-- [x] Updated Next.js config for static export
-- [x] Added GitHub Actions workflow
-- [x] Created `.nojekyll` file
-- [x] Updated package.json scripts
-- [x] Tested local build
+1. **Frontend** — static Next.js export → GitHub Pages
+2. **Backend** — Django API → any Docker/WSGI host (Render, Railway, Fly, etc.)
 
-## 🚀 Deployment Steps
+They must both be deployed and pointed at each other for the app to actually work end-to-end — deploying only the frontend gives you a site where signup/signin/check-ins all fail.
 
-### 1. Enable GitHub Pages in Repository Settings
+## 1. Deploy the backend first
 
-1. Go to your GitHub repository: https://github.com/kagodamos148/pridally-daily-guide
-2. Click on **Settings** tab
-3. Scroll down to **Pages** section in the left sidebar
-4. Under **Source**, select **"GitHub Actions"**
-5. Save the settings
+You need its URL before the frontend build can be configured.
 
-### 2. Commit and Push Changes
+1. Provision a Postgres database (or use the host's managed Postgres).
+2. Deploy `backend/` using `backend/Dockerfile` (`gunicorn core.wsgi:application --bind 0.0.0.0:8000`) to your host of choice.
+3. Set these environment variables on the host (see `backend/.env.example`):
+   - `SECRET_KEY` — required when `DEBUG=False`, the app refuses to start without one
+   - `DEBUG=False`
+   - `ALLOWED_HOSTS` — your backend's domain
+   - `DATABASE_URL` — your Postgres connection string
+   - `CORS_ALLOWED_ORIGINS` — must include your GitHub Pages URL, e.g. `https://<github-username>.github.io`
+4. Run migrations on the host: `python manage.py migrate`
+5. Confirm it's up: `GET https://<your-backend>/api/schema/` should return 200.
+
+## 2. Configure and deploy the frontend
+
+1. In the GitHub repo: **Settings → Secrets and variables → Actions → Variables**, add:
+   - `NEXT_PUBLIC_API_URL` = your backend's URL from step 1 (e.g. `https://pridally-api.onrender.com`)
+
+   This is required — it's baked into the static build at build time. Without it, the deployed site falls back to `http://127.0.0.1:8000`, which doesn't exist in production.
+
+2. **Enable GitHub Pages:** repo **Settings → Pages → Source: GitHub Actions**.
+
+3. Push to `main`:
+   ```bash
+   git push origin main
+   ```
+
+4. Watch the **Actions** tab for the "Deploy Next.js to GitHub Pages" workflow. On success, the site is live at:
+   `https://<github-username>.github.io/<repo-name>/`
+
+   `next.config.js` derives the GitHub Pages base path (`/<repo-name>/`) automatically from `GITHUB_ACTIONS=true`, which the Actions runner sets for you — no manual base-path config needed for that part.
+
+## Manual builds
 
 ```bash
-# Add all files
-git add .
+# Frontend
+npm run build   # -> ./out (static export)
 
-# Commit changes
-git commit -m "Add GitHub Pages deployment configuration"
-
-# Push to main branch
-git push origin main
+# Backend
+cd backend && docker build -t pridally-backend . && docker run -p 8000:8000 --env-file .env pridally-backend
 ```
 
-### 3. Monitor Deployment
+## Troubleshooting
 
-1. Go to the **Actions** tab in your GitHub repository
-2. Watch the "Deploy Next.js to GitHub Pages" workflow
-3. Once completed, your site will be live at:
-   **https://kagodamos148.github.io/pridally-daily-guide/**
-
-## 🔧 Troubleshooting
-
-### If deployment fails:
-
-1. Check the Actions tab for error messages
-2. Ensure all files are committed and pushed
-3. Verify that GitHub Pages is enabled in repository settings
-4. Check that the repository is public (GitHub Pages requires public repos for free accounts)
-
-### Common Issues:
-
-- **404 Error**: Make sure the repository name in the base path matches exactly
-- **Assets not loading**: Check that `images.unoptimized: true` is set in next.config.js
-- **Routing issues**: Ensure `trailingSlash: true` is configured
-
-## 📋 Post-Deployment
-
-- [x] Test all pages load correctly
-- [x] Verify navigation works
-- [x] Check that assets (images, CSS, JS) load properly
-- [x] Test responsive design on mobile devices
-
-## 🔄 Future Updates
-
-To update the deployed site:
-1. Make changes to your code
-2. Commit and push to the main branch
-3. GitHub Actions will automatically rebuild and redeploy
-
-## 📞 Support
-
-If you encounter issues:
-1. Check the GitHub Actions logs
-2. Review the Next.js static export documentation
-3. Verify GitHub Pages settings
+- **Auth/check-ins fail silently in production**: `NEXT_PUBLIC_API_URL` wasn't set (or was wrong) at build time — it's compiled into the static bundle, so you must rebuild after changing it, not just redeploy.
+- **CORS errors in the browser console**: the backend's `CORS_ALLOWED_ORIGINS` doesn't include your actual GitHub Pages origin.
+- **404 on deploy**: repo name mismatch — `next.config.js`'s `repoName` constant must match the actual GitHub repo name.
+- **Backend won't start**: check `DEBUG`/`SECRET_KEY`/`DATABASE_URL` are all set correctly on the host.

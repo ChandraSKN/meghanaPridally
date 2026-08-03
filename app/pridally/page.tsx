@@ -10,15 +10,11 @@ export default function PridAllyPage() {
     router.push('/auth') // Go back to auth page
   }
   
-  const handleFormComplete = () => {
-    router.push('/gender_identity') // Redirect to gender confirmation after form completion
-  }
-
   return (
-    <PridAllyForm 
+    <PridAllyForm
       onBack={handleBack}
-      onPrydAccess={handleFormComplete}
-      onAllyAccess={handleFormComplete}
+      onPrydAccess={() => router.push('/gender_identity?pathway=pryd')}
+      onAllyAccess={() => router.push('/gender_identity?pathway=ally')}
     />
   )
 }

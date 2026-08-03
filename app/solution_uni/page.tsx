@@ -4,14 +4,10 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import SolutionUniPage from '@/components/pridally/solutionUniForm'
 
-export default function PridAllyPage() {
-    const router = useRouter()
-
-    const handleBack = () => {
-        router.push('/') // Go back to home page
-    }
+export default function SolutionUniRoutePage() {
+  const router = useRouter()
 
   return (
-    <SolutionUniPage onGetStarted={handleBack} />
+    <SolutionUniPage onGetStarted={() => router.push('/auth')} />
   )
 }

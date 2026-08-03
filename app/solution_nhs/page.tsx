@@ -4,14 +4,10 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import SolutionNHSPage from '@/components/pridally/solutionNHSForm'
 
-export default function PridAllyPage() {
-    const router = useRouter()
-
-    const handleBack = () => {
-        router.push('/') // Go back to home page
-    }
+export default function SolutionNHSRoutePage() {
+  const router = useRouter()
 
   return (
-    <SolutionNHSPage onGetStarted={handleBack} />
+    <SolutionNHSPage onGetStarted={() => router.push('/auth')} />
   )
 }

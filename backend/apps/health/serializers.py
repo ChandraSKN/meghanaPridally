@@ -5,7 +5,7 @@ class DailyCheckInSerializer(serializers.ModelSerializer):
     """Serializer for Daily Check-in"""
     class Meta:
         model = DailyCheckIn
-        fields = ('id', 'mood', 'energy_level', 'sleep_hours', 'exercise_minutes',
+        fields = ('id', 'mood', 'energy_level', 'responses', 'sleep_hours', 'exercise_minutes',
                   'water_intake', 'notes', 'symptoms', 'meals_logged', 'check_in_date',
                   'created_at', 'updated_at')
         read_only_fields = ('id', 'check_in_date', 'created_at', 'updated_at')

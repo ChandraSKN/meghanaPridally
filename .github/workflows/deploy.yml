@@ -49,6 +49,10 @@ jobs:
         run: npm ci
 
       - name: Build with Next.js
+        env:
+          # Set in repo Settings -> Secrets and variables -> Actions -> Variables,
+          # pointing at wherever the Django API (backend/) is deployed.
+          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
         run: npm run build
 
       - name: Upload artifact

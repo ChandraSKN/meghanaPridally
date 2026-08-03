@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authApi, tokenStorage, type AuthUser } from '@/lib/api';
 
 interface User {
   id: string;
@@ -10,6 +11,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
+  isLoading: boolean;
   signin: (email: string, password: string) => Promise<boolean>;
   signup: (email: string, password: string, name: string) => Promise<boolean>;
   signout: () => void;
@@ -25,58 +27,73 @@ export const useAuth = () => {
   return context;
 };
 
+const toUser = (apiUser: AuthUser): User => ({
+  id: String(apiUser.id),
+  email: apiUser.email,
+  name: [apiUser.first_name, apiUser.last_name].filter(Boolean).join(' ') || apiUser.email.split('@')[0],
+  joinedDate: apiUser.created_at,
+});
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for stored user session
-    const storedUser = localStorage.getItem('pridally_user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    const restoreSession = async () => {
+      if (!tokenStorage.getAccess()) {
+        setIsLoading(false);
+        return;
+      }
+      try {
+        const apiUser = await authApi.me();
+        setUser(toUser(apiUser));
+      } catch {
+        tokenStorage.clear();
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    restoreSession();
   }, []);
 
   const signin = async (email: string, password: string): Promise<boolean> => {
-    // Simulate authentication - in real app, this would call your API
-    if (email && password) {
-      const userData = {
-        id: Math.random().toString(36).substr(2, 9),
-        email,
-        name: email.split('@')[0],
-        joinedDate: new Date().toISOString(),
-      };
-      setUser(userData);
-      localStorage.setItem('pridally_user', JSON.stringify(userData));
+    try {
+      await authApi.login(email, password);
+      const apiUser = await authApi.me();
+      setUser(toUser(apiUser));
       return true;
+    } catch (error) {
+      tokenStorage.clear();
+      return false;
     }
-    return false;
   };
 
   const signup = async (email: string, password: string, name: string): Promise<boolean> => {
-    // Simulate registration - signup page
-    if (email && password && name) {
-      const userData = {
-        id: Math.random().toString(36).substr(2, 9),
+    try {
+      const [first_name, ...rest] = name.trim().split(/\s+/);
+      const last_name = rest.join(' ');
+      await authApi.signup({
         email,
-        name,
-        joinedDate: new Date().toISOString(),
-      };
-      setUser(userData);
-      localStorage.setItem('pridally_user', JSON.stringify(userData));
-      return true;
+        first_name: first_name || '',
+        last_name,
+        password,
+        password_confirm: password,
+      });
+      return signin(email, password);
+    } catch (error) {
+      return false;
     }
-    return false;
   };
 
   const signout = () => {
     setUser(null);
-    localStorage.removeItem('pridally_user');
-    localStorage.removeItem('pridally_daily_data');
+    tokenStorage.clear();
   };
 
   const value = {
     user,
     isAuthenticated: !!user,
+    isLoading,
     signin,
     signup,
     signout,

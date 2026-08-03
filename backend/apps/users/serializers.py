@@ -49,8 +49,18 @@ class UserSignUpSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         validated_data.pop('password_confirm')
+        validated_data['username'] = self._generate_unique_username(validated_data['email'])
         user = User.objects.create_user(**validated_data)
         return user
+
+    def _generate_unique_username(self, email):
+        base = email.split('@')[0]
+        username = base
+        suffix = 1
+        while User.objects.filter(username=username).exists():
+            suffix += 1
+            username = f'{base}{suffix}'
+        return username
 
 
 class ChangePasswordSerializer(serializers.Serializer):

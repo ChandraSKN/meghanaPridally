@@ -1,7 +1,9 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import { ArrowRight, Sparkles, Play, ChevronDown, Menu, X } from 'lucide-react'
+import { ArrowRight, Sparkles, Play, X } from 'lucide-react'
+import SiteHeader from './SiteHeader'
+import SiteFooter from './SiteFooter'
 
 interface PressFormProps {
   onGetStarted: () => void
@@ -43,16 +45,10 @@ const videos = [
   },
 ] as const
 
-export default function PressForm({ onGetStarted, onBack }: PressFormProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+export default function PressForm({ onGetStarted }: PressFormProps) {
   const [modalVideo, setModalVideo] = useState<(typeof videos)[number] | null>(null)
   const [isModalClosing, setIsModalClosing] = useState(false)
   const modalVideoRef = useRef<HTMLVideoElement | null>(null)
-
-  const toggleDropdown = (dropdown: string) => {
-    setOpenDropdown(openDropdown === dropdown ? null : dropdown)
-  }
 
   const openVideoModal = (video: (typeof videos)[number]) => {
     setModalVideo(video)
@@ -85,8 +81,6 @@ export default function PressForm({ onGetStarted, onBack }: PressFormProps) {
       modalVideoRef.current.play().catch(() => {})
     }
   }, [modalVideo])
-
-  const year = new Date().getFullYear()
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -156,158 +150,7 @@ export default function PressForm({ onGetStarted, onBack }: PressFormProps) {
       )}
 
       {/* Navigation Bar */}
-      <nav className="sticky top-0 z-50 bg-transparent backdrop-blur-md border-b border-white/10">
-        <div className="w-full px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <img
-                src="/Pridally_logo.png"
-                alt="Pridally"
-                className="h-10 w-auto brightness-110"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none'
-                }}
-              />
-              <button
-                onClick={onBack}
-                className="text-black/80 hover:text-black transition-colors text-sm"
-              >
-                ← Back
-              </button>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="/" className="text-black/90 hover:text-black transition-colors">
-                Home
-              </a>
-
-              <div className="relative">
-                <button
-                  onClick={() => toggleDropdown('solutions')}
-                  className="flex items-center text-black/90 hover:text-black transition-colors"
-                >
-                  Solutions
-                  <ChevronDown className="ml-1 h-4 w-4" />
-                </button>
-                {openDropdown === 'solutions' && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-sm rounded-md shadow-lg py-2 z-10">
-                    <a href="/solution_individual" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      For Individuals
-                    </a>
-                    <a href="/solution_nhs" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      For NHS/Services
-                    </a>
-                    <a href="/solution_uni" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      For Universities/Research
-                    </a>
-                  </div>
-                )}
-              </div>
-
-              <div className="relative">
-                <button
-                  onClick={() => toggleDropdown('about')}
-                  className="flex items-center text-black/90 hover:text-black transition-colors"
-                >
-                  About Us
-                  <ChevronDown className="ml-1 h-4 w-4" />
-                </button>
-                {openDropdown === 'about' && (
-                  <div className="absolute top-full left-0 mt-2 w-56 bg-white/95 backdrop-blur-sm rounded-md shadow-lg py-2 z-10">
-                    <a href="/why_pridally" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      Why Pridally
-                    </a>
-                    <a href="/safeguarding" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      Safeguarding & Clinical Standards
-                    </a>
-                  </div>
-                )}
-              </div>
-
-              <a href="/press" className="text-black/90 hover:text-black transition-colors">
-                Media
-              </a>
-
-              <button
-                onClick={onGetStarted}
-                className="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-orange-400 transition-colors shadow-md hover:shadow-lg"
-              >
-                Join Pridally
-              </button>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-900 hover:text-gray-700"
-                aria-label="Open menu"
-              >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="md:hidden py-4 border-t border-gray-200">
-              <div className="space-y-4">
-                <a href="/" className="block text-gray-700 hover:text-gray-900">
-                  Home
-                </a>
-
-                <button onClick={onGetStarted} className="block w-full text-left text-gray-700 hover:text-gray-900">
-                  Join Pridally
-                </button>
-
-                <div>
-                  <button
-                    onClick={() => toggleDropdown('mobile-solutions')}
-                    className="flex items-center justify-between w-full text-gray-700 hover:text-gray-900"
-                  >
-                    Solutions
-                    <ChevronDown className="h-4 w-4" />
-                  </button>
-                  {openDropdown === 'mobile-solutions' && (
-                    <div className="mt-2 ml-4 space-y-2">
-                      <a href="/solution_individual" className="block text-gray-600 hover:text-gray-900">
-                        For Individuals
-                      </a>
-                      <a href="/solution_nhs" className="block text-gray-600 hover:text-gray-900">
-                        For NHS/Services
-                      </a>
-                      <a href="/solution_uni" className="block text-gray-600 hover:text-gray-900">
-                        For Universities/Research
-                      </a>
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <button
-                    onClick={() => toggleDropdown('mobile-about')}
-                    className="flex items-center justify-between w-full text-gray-700 hover:text-gray-900"
-                  >
-                    About Us
-                    <ChevronDown className="h-4 w-4" />
-                  </button>
-                  {openDropdown === 'mobile-about' && (
-                    <div className="mt-2 ml-4 space-y-2">
-                      <a href="/why_pridally" className="block text-gray-600 hover:text-gray-900">
-                        Why Pridally
-                      </a>
-                      <a href="/safeguarding" className="block text-gray-600 hover:text-gray-900">
-                        Safeguarding & Clinical Standards
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
+      <SiteHeader onGetStarted={onGetStarted} />
 
       {/* Main Content */}
       <main className="flex-grow">
@@ -453,24 +296,7 @@ export default function PressForm({ onGetStarted, onBack }: PressFormProps) {
       </main>
 
       {/* Footer */}
-      <footer className="py-12 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-gray-400 text-sm font-light">© {year} PRIDalLY. All rights reserved.</div>
-            <div className="flex items-center gap-6 text-sm text-gray-400 font-light">
-              <a href="/privacy" className="hover:text-white transition-colors">
-                Privacy Policy
-              </a>
-              <a href="/terms" className="hover:text-white transition-colors">
-                Terms of Service
-              </a>
-              <a href="/contact" className="hover:text-white transition-colors">
-                Contact
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
 
       <style>{`
         @keyframes fadeInUp {

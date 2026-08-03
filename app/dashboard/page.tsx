@@ -3,21 +3,21 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
-import LandingPage from '@/components/landing/LandingPage'
+import Dashboard from '@/components/dashboard/Dashboard'
 
-export default function HomePage() {
+export default function DashboardPage() {
   const { isAuthenticated, isLoading } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      router.replace('/dashboard')
+    if (!isLoading && !isAuthenticated) {
+      router.replace('/auth')
     }
   }, [isLoading, isAuthenticated, router])
 
-  if (isLoading || isAuthenticated) {
+  if (isLoading || !isAuthenticated) {
     return null
   }
 
-  return <LandingPage onGetStarted={() => router.push('/auth')} />
+  return <Dashboard />
 }

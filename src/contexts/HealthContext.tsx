@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { checkinsApi, type DailyCheckIn as ApiDailyCheckIn } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 
 export interface HealthMetric {
   id: string;
@@ -16,18 +18,25 @@ export interface HealthMetric {
 
 export interface DailyEntry {
   date: string;
-  responses: Record<string, any>;
+  responses: Record<string, unknown>;
   completed: boolean;
 }
 
 interface HealthContextType {
   metrics: HealthMetric[];
   dailyEntries: DailyEntry[];
+  isLoading: boolean;
   hasCompletedToday: () => boolean;
   hasCompletedAllToday: () => boolean;
-  submitDailyEntry: (responses: Record<string, any>) => void;
+  submitDailyEntry: (responses: Record<string, unknown>) => void;
   getDailyEntry: (date: string) => DailyEntry | undefined;
 }
+
+const toEntry = (checkin: ApiDailyCheckIn): DailyEntry => ({
+  date: checkin.check_in_date,
+  responses: checkin.responses,
+  completed: true,
+});
 
 const healthMetrics: HealthMetric[] = [
   {
@@ -172,15 +181,32 @@ export const useHealth = () => {
 };
 
 export const HealthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isAuthenticated } = useAuth();
   const [dailyEntries, setDailyEntries] = useState<DailyEntry[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Load existing data from localStorage
-    const storedData = localStorage.getItem('pridally_daily_data');
-    if (storedData) {
-      setDailyEntries(JSON.parse(storedData));
+    if (!isAuthenticated) {
+      setDailyEntries([]);
+      setIsLoading(false);
+      return;
     }
-  }, []);
+
+    let cancelled = false;
+    setIsLoading(true);
+    checkinsApi
+      .weekly()
+      .then((checkins) => {
+        if (!cancelled) setDailyEntries(checkins.map(toEntry));
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isAuthenticated]);
 
   const getTodayString = () => {
     const today = new Date();
@@ -212,29 +238,23 @@ export const HealthProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return allQuestions.every(q => todayEntry.responses[q.id] !== undefined);
   };
 
-  const submitDailyEntry = (responses: Record<string, any>) => {
+  const submitDailyEntry = useCallback((responses: Record<string, unknown>) => {
     const today = getTodayString();
-    
-    // Find existing entry for today
-    const existingEntry = dailyEntries.find(entry => entry.date === today);
-    
-    // Merge new responses with existing ones
-    const mergedResponses = existingEntry 
-      ? { ...existingEntry.responses, ...responses }
-      : responses;
-    
-    const newEntry: DailyEntry = {
-      date: today,
-      responses: mergedResponses,
-      completed: true,
-    };
 
-    const updatedEntries = dailyEntries.filter(entry => entry.date !== today);
-    updatedEntries.push(newEntry);
-    
-    setDailyEntries(updatedEntries);
-    localStorage.setItem('pridally_daily_data', JSON.stringify(updatedEntries));
-  };
+    // Optimistically merge into local state so the UI updates immediately.
+    setDailyEntries((prev) => {
+      const existingEntry = prev.find((entry) => entry.date === today);
+      const mergedResponses = existingEntry
+        ? { ...existingEntry.responses, ...responses }
+        : responses;
+      const newEntry: DailyEntry = { date: today, responses: mergedResponses, completed: true };
+      return [...prev.filter((entry) => entry.date !== today), newEntry];
+    });
+
+    checkinsApi.upsertTodayResponses(responses).catch((error) => {
+      console.error('Failed to save daily check-in', error);
+    });
+  }, []);
 
   const getDailyEntry = (date: string): DailyEntry | undefined => {
     return dailyEntries.find(entry => entry.date === date);
@@ -243,6 +263,7 @@ export const HealthProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const value = {
     metrics: healthMetrics,
     dailyEntries,
+    isLoading,
     hasCompletedToday,
     hasCompletedAllToday,
     submitDailyEntry,

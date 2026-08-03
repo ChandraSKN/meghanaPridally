@@ -23,15 +23,22 @@ class DailyCheckIn(models.Model):
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_checkins')
-    
-    # Mood and energy tracking
-    mood = models.CharField(max_length=20, choices=MOOD_CHOICES)
-    energy_level = models.CharField(max_length=20, choices=ENERGY_CHOICES)
-    
+
+    # Mood and energy tracking (optional structured summary; not every check-in flow sets these)
+    mood = models.CharField(max_length=20, choices=MOOD_CHOICES, blank=True, default='')
+    energy_level = models.CharField(max_length=20, choices=ENERGY_CHOICES, blank=True, default='')
+
+    # Per-question responses from the daily wellness flow (mental, sexual, reproductive,
+    # social, physical health questions) — kept flexible since the question set spans
+    # scale/boolean/text answers and evolves independently of this model.
+    responses = models.JSONField(default=dict, blank=True)
+
     # Health metrics
     sleep_hours = models.FloatField(
         validators=[MinValueValidator(0), MaxValueValidator(24)],
-        help_text="Hours of sleep"
+        help_text="Hours of sleep",
+        null=True,
+        blank=True,
     )
     exercise_minutes = models.IntegerField(
         default=0,

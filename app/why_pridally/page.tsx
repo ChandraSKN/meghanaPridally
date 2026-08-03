@@ -4,14 +4,10 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import WhyPridallyPage from '@/components/pridally/WhyPridallyPage';
 
-export default function PridAllyPage() {
-    const router = useRouter()
-
-    const handleBack = () => {
-        router.push('/') // Go back to home page
-    }
+export default function WhyPridallyRoutePage() {
+  const router = useRouter()
 
   return (
-    <WhyPridallyPage onGetStarted={handleBack} />
+    <WhyPridallyPage onGetStarted={() => router.push('/auth')} />
   )
 }

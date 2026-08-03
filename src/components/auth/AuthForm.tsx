@@ -30,70 +30,12 @@ const AuthForm: React.FC<AuthFormProps> = ({
   const [name, setName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const AUTH_DISABLED = true;
 
   const { signin, signup } = useAuth();
   const { toast } = useToast();
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   try {
-  //     let success = false;
-
-  //     if (isSignIn) {
-  //       success = await signin(email, password);
-  //     } else {
-  //       success = await signup(email, password, name);
-  //     }
-
-  //     if (success) {
-  //       if (!isSignIn && onSignUpRedirect) {
-  //         // For sign up → redirect to PridAlly form
-  //         onSignUpRedirect();
-  //       } else {
-  //         // For sign in → show success message
-  //         toast({
-  //           title: isSignIn ? "Welcome back!" : "Account created!",
-  //           description: isSignIn
-  //             ? "You've been signed in successfully."
-  //             : "Your account has been created and you're now signed in.",
-  //         });
-
-  //         // 🔥 Trigger redirect after sign-in if provided
-  //         if (isSignIn && onSignInSuccess) {
-  //           onSignInSuccess();
-  //         }
-  //       }
-  //     } else {
-  //       toast({
-  //         title: "Authentication failed",
-  //         description: "Please check your credentials and try again.",
-  //         variant: "destructive",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     toast({
-  //       title: "Error",
-  //       description: "Something went wrong. Please try again.",
-  //       variant: "destructive",
-  //     });
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (AUTH_DISABLED) {
-      toast({
-        title: "Coming Soon 🚀",
-        description:
-          "Authentication is currently under development. Please check back soon.",
-      });
-      return;
-    }
 
     setLoading(true);
 
@@ -217,15 +159,13 @@ const AuthForm: React.FC<AuthFormProps> = ({
             <Button
               type="submit"
               className="w-full bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-medium"
-              disabled={loading || AUTH_DISABLED}
+              disabled={loading}
             >
-              {AUTH_DISABLED
-                ? "Coming Soon"
-                : loading
-                  ? "Processing..."
-                  : isSignIn
-                    ? "Sign In"
-                    : "Create Account"}
+              {loading
+                ? "Processing..."
+                : isSignIn
+                  ? "Sign In"
+                  : "Create Account"}
             </Button>
           </form>
 
