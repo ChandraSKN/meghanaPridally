@@ -156,12 +156,11 @@ SIMPLE_JWT = {
 }
 
 # CORS
-# Override CORS_ALLOWED_ORIGINS in production to your actual GitHub Pages URL
-# (defaults include the repo's inferred Pages URL, but confirm it matches your Pages settings).
+# Override CORS_ALLOWED_ORIGINS via env var if the production frontend domain changes.
 
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000,http://127.0.0.1:3000,https://chandraskn.github.io',
+    default='http://localhost:3000,http://127.0.0.1:3000,https://www.pridally.com,https://pridally.com',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
