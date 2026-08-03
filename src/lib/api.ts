@@ -1,4 +1,7 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+// Falls back to the live Render backend so a production build still works even if
+// NEXT_PUBLIC_API_URL isn't set in Vercel's project env vars (this is baked in at
+// build time since the site is a static export).
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://pridally-backend.onrender.com';
 
 const ACCESS_TOKEN_KEY = 'pridally_access_token';
 const REFRESH_TOKEN_KEY = 'pridally_refresh_token';
