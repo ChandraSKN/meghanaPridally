@@ -142,15 +142,21 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
               </div>
 
 
-              <a 
+              <a
                 href="/press"
                 className="text-white/90 hover:text-white transition-colors"
               >
                 Media
               </a>
 
+              <a
+                href="/future_scope"
+                className="text-white/90 hover:text-white transition-colors"
+              >
+                Future Scope
+              </a>
 
-              <button 
+              <button
                 onClick={onGetStarted}
                 className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full hover:bg-white/30 transition-colors"
               >
@@ -176,8 +182,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetStarted }) => {
                 <a href="#home" className="block text-white/90 hover:text-white">
                   Home
                 </a>
-                
-                <button 
+
+                <a href="/future_scope" className="block text-white/90 hover:text-white">
+                  Future Scope
+                </a>
+
+                <button
                   onClick={onGetStarted}
                   className="block w-full text-left text-white/90 hover:text-white"
                 >

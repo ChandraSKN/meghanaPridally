@@ -92,6 +92,10 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ onGetStarted }) => {
               Media
             </button>
 
+            <a href="/future_scope" className="text-black/90 hover:text-black transition-colors">
+              Future Scope
+            </a>
+
             <button
               onClick={onGetStarted}
               className="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-orange-400 transition-colors shadow-md hover:shadow-lg"
@@ -117,6 +121,10 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ onGetStarted }) => {
             <div className="space-y-4">
               <a href="/" className="block text-gray-700 hover:text-gray-900">
                 Home
+              </a>
+
+              <a href="/future_scope" className="block text-gray-700 hover:text-gray-900">
+                Future Scope
               </a>
 
               <button
