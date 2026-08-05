@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Pridally",
+    "slug": "pridally-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.pridally.mobile",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#7C3AED",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fee014b6-84e5-4e17-a912-eb942d1ae861"
+      }
+    },
+    "owner": "pridally",
+    "plugins": [
+      "@react-native-community/datetimepicker"
+    ]
+  }
+}
