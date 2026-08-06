@@ -338,6 +338,20 @@ outstanding:
   black silhouette for the Android 13+ monochrome icon). Verified with
   `expo-doctor` (18/18 checks pass). Removed from "Known gaps" in
   section 8.
+- **2026-08-06** — Fixed appointments (upcoming/past history, and
+  newly-booked appointments) silently failing to load after ~1 hour of
+  app use. Root cause: the backend's `SIMPLE_JWT` config has
+  `ROTATE_REFRESH_TOKENS` + `BLACKLIST_AFTER_ROTATION` enabled (each
+  refresh call issues a new refresh token and blacklists the old one),
+  but `refreshAccessToken()` in `src/lib/api.ts` only persisted the new
+  *access* token, not the new *refresh* token. After the first silent
+  refresh (access tokens expire hourly), the stored refresh token became
+  stale, so every subsequent refresh attempt failed, auth silently broke,
+  and `AppointmentsScreen` (which swallows fetch errors to avoid
+  blanking the screen) just showed an empty list instead of surfacing
+  the problem. Fixed by saving both tokens on refresh. Anyone who hit
+  this needs to log out/in once to clear an already-blacklisted refresh
+  token.
 - **2026-08-04** — Documented (no code change) the rationale for staying
   on React Native/Expo for a healthcare app, the future path for native
   sensor integration (Expo config plugins vs. `prebuild`), the

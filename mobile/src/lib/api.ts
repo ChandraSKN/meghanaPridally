@@ -46,7 +46,11 @@ async function refreshAccessToken(): Promise<string | null> {
   }
 
   const data = await res.json();
-  await tokenStorage.setAccess(data.access);
+  if (data.refresh) {
+    await tokenStorage.setTokens(data.access, data.refresh);
+  } else {
+    await tokenStorage.setAccess(data.access);
+  }
   return data.access as string;
 }
 
