@@ -253,6 +253,25 @@ interface PaginatedResponse<T> {
   results: T[];
 }
 
+// ---- Body profile / transition timeline ----
+
+export interface BodyProfile {
+  id: number;
+  height: number | null;
+  weight: number | null;
+  chest: number | null;
+  waist: number | null;
+  hip: number | null;
+  transition_direction: 'feminizing' | 'masculinizing' | '';
+}
+
+export const profileApi = {
+  me: () => apiFetch<BodyProfile>('/api/profiles/me/'),
+
+  update: (data: Partial<Omit<BodyProfile, 'id'>>) =>
+    apiFetch<BodyProfile>('/api/profiles/me/', { method: 'PUT', body: data }),
+};
+
 export const doctorsApi = {
   // Note: the default list endpoint is paginated server-side (PAGE_SIZE=10).
   // Only the first page is fetched — fine while there are only a handful of

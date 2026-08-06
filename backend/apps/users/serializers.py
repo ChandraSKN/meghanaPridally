@@ -17,8 +17,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
     """Serializer for UserProfile model"""
     class Meta:
         model = UserProfile
-        fields = ('id', 'height', 'weight', 'blood_type', 'notification_enabled',
-                  'theme_preference', 'allergies', 'medications', 'medical_conditions')
+        fields = ('id', 'height', 'weight', 'chest', 'waist', 'hip', 'transition_direction',
+                  'blood_type', 'notification_enabled', 'theme_preference', 'allergies',
+                  'medications', 'medical_conditions')
 
 
 class UserDetailSerializer(serializers.ModelSerializer):

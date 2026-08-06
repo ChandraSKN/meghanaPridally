@@ -18,6 +18,8 @@ import AssistantScreen from './screens/AssistantScreen';
 import PathwaySetupScreen from './screens/PathwaySetupScreen';
 import AppointmentsScreen from './screens/AppointmentsScreen';
 import BookAppointmentScreen from './screens/BookAppointmentScreen';
+import BodyMeasurementsScreen from './screens/BodyMeasurementsScreen';
+import TransitionTimelineScreen from './screens/TransitionTimelineScreen';
 
 const AuthStack = createNativeStackNavigator();
 const RootStack = createNativeStackNavigator();
@@ -73,6 +75,8 @@ function MainNavigator() {
       <RootStack.Screen name="MainTabs" component={MainTabsNavigator} />
       <RootStack.Screen name="Appointments" component={AppointmentsScreen} />
       <RootStack.Screen name="BookAppointment" component={BookAppointmentScreen} />
+      <RootStack.Screen name="BodyMeasurements" component={BodyMeasurementsScreen} />
+      <RootStack.Screen name="TransitionTimeline" component={TransitionTimelineScreen} />
     </RootStack.Navigator>
   );
 }

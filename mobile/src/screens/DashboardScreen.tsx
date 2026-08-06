@@ -150,6 +150,11 @@ export default function DashboardScreen({ navigation }: any) {
           <Text style={styles.appointmentValue}>{formatAppointment(upcoming)}</Text>
         </TouchableOpacity>
       )}
+
+      <TouchableOpacity style={styles.appointmentCard} onPress={() => navigation.navigate('TransitionTimeline')}>
+        <Text style={styles.appointmentLabel}>🧍 Transition timeline</Text>
+        <Text style={styles.appointmentValue}>See how the illustrated mannequin changes over time</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }

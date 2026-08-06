@@ -194,7 +194,8 @@ npx eas-cli build:list --platform android --limit 1 --json --non-interactive
   stored in `AsyncStorage`, auto-refreshed on a 401 the same way the web
   client does.
 - Endpoints used: `/api/auth/signup/`, `/api/auth/token/`,
-  `/api/auth/token/refresh/`, `/api/users/me/`, `/api/checkins/*`.
+  `/api/auth/token/refresh/`, `/api/users/me/`, `/api/checkins/*`,
+  `/api/appointments/*`, `/api/doctors/*`, `/api/profiles/me/`.
 - The backend is on Render's free tier, so the first request after a
   period of inactivity can take 30–50 seconds (cold start) — worth
   mentioning before a client demo so a slow first load isn't mistaken for
@@ -352,6 +353,28 @@ outstanding:
   the problem. Fixed by saving both tokens on refresh. Anyone who hit
   this needs to log out/in once to clear an already-blacklisted refresh
   token.
+- **2026-08-06** — Added a "Transition timeline" feature: users enter
+  height/weight/chest/waist/hip and a direction (feminizing/masculinizing)
+  on a new `BodyMeasurementsScreen`, then `TransitionTimelineScreen` shows
+  a swipeable timeline (baseline → 3mo → 6mo → 1yr → 2yr+) rendering a
+  generic illustrated "dress-form" mannequin (`MannequinAvatar.tsx`, built
+  with the new `react-native-svg` dependency) sized from those
+  measurements, whose shoulder/bust/waist/hip proportions shift a little
+  per stage. Stage descriptions are static, non-personalized clinical
+  reference content (`src/lib/transitionStages.ts`), always paired with a
+  visible disclaimer that outcomes vary by person. **Deliberately not an
+  AI-generated photo transformation**: the original ask was to morph an
+  uploaded real photo of the user over time, which was declined as a
+  safeguarding/deepfake risk (this app has a `safeguarding` section
+  implying a userbase that may include minors, and photorealistic
+  manipulation of a real, identifiable person's likeness to depict altered
+  physical/sex characteristics is not something to build). The mannequin
+  is abstract by design — no face, no skin tone, no photo — so it can
+  never resemble a real person. Backend: `UserProfile` gained
+  `chest`/`waist`/`hip`/`transition_direction` fields (migration
+  `apps/users/migrations/0002_userprofile_chest_userprofile_hip_and_more.py`),
+  exposed via the existing `/api/profiles/me/` endpoint — no new backend
+  app or endpoint needed.
 - **2026-08-04** — Documented (no code change) the rationale for staying
   on React Native/Expo for a healthcare app, the future path for native
   sensor integration (Expo config plugins vs. `prebuild`), the

@@ -48,6 +48,15 @@ class UserProfile(models.Model):
     # Health metrics
     height = models.FloatField(null=True, blank=True)  # in cm
     weight = models.FloatField(null=True, blank=True)  # in kg
+    chest = models.FloatField(null=True, blank=True)  # in cm
+    waist = models.FloatField(null=True, blank=True)  # in cm
+    hip = models.FloatField(null=True, blank=True)  # in cm
+    transition_direction = models.CharField(
+        max_length=20,
+        choices=[('feminizing', 'Feminizing'), ('masculinizing', 'Masculinizing')],
+        blank=True,
+        help_text="Direction used by the transition timeline visualization",
+    )
     blood_type = models.CharField(
         max_length=5,
         choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), 
